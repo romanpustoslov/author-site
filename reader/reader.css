@@ -502,7 +502,7 @@ body.ble-reader-open {
   transform: translateY(-2px);
 }
 
-/* Секция комментариев и отзывов */
+/* Секция отзывов и комментариев к главе */
 .ble-reader-comments-section {
   margin-top: 4rem;
   padding-top: 2.5rem;
@@ -510,7 +510,7 @@ body.ble-reader-open {
 }
 
 .ble-comments-header {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .ble-comments-header h3 {
@@ -526,17 +526,108 @@ body.ble-reader-open {
   margin: 0;
 }
 
-#cusdis_thread {
-  min-height: 200px;
-  background: rgba(14, 17, 24, 0.6);
+.ble-feedback-box {
+  background: rgba(18, 24, 36, 0.7);
   border: 1px solid var(--ble-card-border);
-  border-radius: 10px;
-  padding: 1.5rem;
+  border-radius: 12px;
+  padding: 1.75rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
-#cusdis_thread iframe {
-  width: 100% !important;
-  border: none !important;
+.ble-fb-input {
+  background: #0b0f17;
+  border: 1px solid var(--ble-card-border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: var(--ble-text);
+  font-family: var(--ble-font-sans);
+  font-size: 0.92rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.ble-fb-input:focus {
+  border-color: var(--ble-gold);
+}
+
+.ble-fb-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background: #0b0f17;
+  border: 1px solid var(--ble-card-border);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  color: var(--ble-text);
+  font-family: var(--ble-font-sans);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  min-height: 110px;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.ble-fb-textarea:focus {
+  border-color: var(--ble-gold);
+}
+
+.ble-fb-submit-btn {
+  background: linear-gradient(135deg, var(--ble-gold), #d97706);
+  color: #0b0f17;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 15px rgba(229, 169, 60, 0.3);
+}
+
+.ble-fb-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(229, 169, 60, 0.5);
+}
+
+.ble-fb-alt-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--ble-card-border);
+  color: var(--ble-text-muted);
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+}
+
+.ble-fb-alt-btn:hover {
+  color: var(--ble-neon);
+  border-color: var(--ble-neon);
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.ble-fb-status {
+  margin-top: 1rem;
+  font-size: 0.92rem;
+  line-height: 1.4;
+  display: none;
+}
+
+.ble-fb-status.sending {
+  display: block;
+  color: var(--ble-gold);
+}
+
+.ble-fb-status.success {
+  display: block;
+  color: var(--ble-neon);
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
 }
 
 /* Мобильная адаптивность */
