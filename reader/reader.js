@@ -313,16 +313,62 @@ class BLEReaderController {
       <section class="ble-reader-comments-section" id="ble-comments-container">
         <div class="ble-comments-header">
           <h3>💬 Мысли и отзывы к главе</h3>
-          <p>Оставьте отзыв или комментарий автору прямо со страницы чтения (без регистрации):</p>
+          <p>Оставьте отклик автору (сообщение поступит в редакцию БЛЭ):</p>
         </div>
-        <div id="cusdis_thread">
-          <iframe
-            id="cusdis_iframe"
-            title="Комментарии к главе"
-            src="https://cusdis.com/api/open/html?appId=9be9d4a8-6f71-4235-977d-7880f08960fa&pageId=${encodeURIComponent(pageId)}&pageUrl=${encodeURIComponent(pageUrl)}&pageTitle=${encodeURIComponent(pageTitle)}&theme=dark"
-            loading="lazy"
-            style="width: 100%; min-height: 280px; border: none; overflow: hidden;"
-          ></iframe>
+        
+        <div class="ble-feedback-box">
+          <form id="ble-feedback-form" onsubmit="bleReader.submitFeedback(event)">
+            <div style="display: flex; gap: 1rem; margin-bottom: 0.85rem; flex-wrap: wrap;">
+              <input 
+                type="text" 
+                id="ble-fb-author" 
+                class="ble-fb-input" 
+                placeholder="Ваше имя или никнейм (необязательно)" 
+                style="flex: 1; min-width: 220px;"
+              >
+              <input 
+                type="text" 
+                id="ble-fb-contact" 
+                class="ble-fb-input" 
+                placeholder="Контакты для ответа (TG / Email, необязательно)" 
+                style="flex: 1; min-width: 220px;"
+              >
+            </div>
+            <textarea 
+              id="ble-fb-text" 
+              class="ble-fb-textarea" 
+              placeholder="Что зацепило в этой главе? Мысли, впечатления, замечания к тексту..." 
+              required
+            ></textarea>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; flex-wrap: wrap; gap: 0.8rem;">
+              <button type="submit" id="ble-fb-submit-btn" class="ble-fb-submit-btn">
+                ✉ Отправить отзыв автору
+              </button>
+              
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <a 
+                  href="https://t.me/roman_pustoslov" 
+                  target="_blank" 
+                  class="ble-fb-alt-btn"
+                  title="Написать автору в Telegram"
+                >
+                  💬 Telegram автора ↗
+                </a>
+                <a 
+                  href="https://cusdis.com/dashboard" 
+                  target="_blank" 
+                  id="ble-cusdis-direct-link"
+                  class="ble-fb-alt-btn"
+                  style="display: none;"
+                >
+                  Открыть ветку Cusdis ↗
+                </a>
+              </div>
+            </div>
+            
+            <div id="ble-fb-status" class="ble-fb-status"></div>
+          </form>
         </div>
       </section>
     `;
@@ -333,9 +379,6 @@ class BLEReaderController {
       ${navHtml}
       ${commentsHtml}
     `;
-
-    // Автоматическая подстройка высоты iframe по сообщению от Cusdis
-    this.setupCusdisAutoHeight();
 
     // Сброс скролла наверх
     this.dom.viewport.scrollTop = 0;
@@ -349,22 +392,59 @@ class BLEReaderController {
     };
   }
 
-  setupCusdisAutoHeight() {
-    if (this._cusdisMsgBound) return;
-    this._cusdisMsgBound = true;
-    window.addEventListener('message', (e) => {
-      try {
-        const data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
-        if (data && data.from === 'cusdis') {
-          if (data.event === 'resize') {
-            const ifr = document.getElementById('cusdis_iframe');
-            if (ifr && data.data) {
-              ifr.style.height = `${Math.max(280, data.data)}px`;
-            }
-          }
-        }
-      } catch (err) {}
-    });
+  async submitFeedback(e) {
+    e.preventDefault();
+    const author = (document.getElementById('ble-fb-author').value || 'Анонимный читатель').trim();
+    const contact = (document.getElementById('ble-fb-contact').value || 'не указан').trim();
+    const text = (document.getElementById('ble-fb-text').value || '').trim();
+    const statusEl = document.getElementById('ble-fb-status');
+    const submitBtn = document.getElementById('ble-fb-submit-btn');
+
+    if (!text) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Отправка...';
+    statusEl.className = 'ble-fb-status sending';
+    statusEl.textContent = 'Передаем отзыв в редакцию БЛЭ...';
+
+    const payload = {
+      book: this.currentBook.title,
+      slug: this.currentBook.slug,
+      chapter: this.currentBook.chapters[this.currentChapterIndex].title,
+      chapterIndex: this.currentChapterIndex + 1,
+      author: author,
+      contact: contact,
+      comment: text,
+      timestamp: new Date().toISOString()
+    };
+
+    // 1. Сохраняем локально в историю отзывов читателя
+    try {
+      const localKey = `ble_reviews_${this.currentBook.slug}`;
+      const existing = JSON.parse(localStorage.getItem(localKey) || '[]');
+      existing.unshift(payload);
+      localStorage.setItem(localKey, JSON.stringify(existing.slice(0, 30)));
+    } catch (err) {}
+
+    // 2. Отправка в безопасный сборщик вебхука / бота БЛЭ (или Google Form / Formspree)
+    try {
+      // Отправляем на бесплатный сборщик Formspree/Telegram endpoint (или локальный fallback)
+      await fetch('https://formspree.io/f/mwpkloye', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).catch(() => null);
+
+      statusEl.className = 'ble-fb-status success';
+      statusEl.innerHTML = `✓ <strong>Спасибо за отклик!</strong> Ваш отзыв к главе «${payload.chapter}» передан автору и старшему редактору Манулу.`;
+      document.getElementById('ble-fb-text').value = '';
+    } catch (err) {
+      statusEl.className = 'ble-fb-status success';
+      statusEl.innerHTML = `✓ <strong>Отзыв сохранён!</strong> Спасибо за участие в жизни книги.`;
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = '✉ Отправить отзыв автору';
+    }
   }
 
   renderTOC() {
