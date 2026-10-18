@@ -341,30 +341,10 @@ class BLEReaderController {
               required
             ></textarea>
             
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; flex-wrap: wrap; gap: 0.8rem;">
+            <div style="display: flex; justify-content: flex-start; align-items: center; margin-top: 1rem;">
               <button type="submit" id="ble-fb-submit-btn" class="ble-fb-submit-btn">
                 ✉ Отправить отзыв автору
               </button>
-              
-              <div style="display: flex; gap: 0.75rem; align-items: center;">
-                <a 
-                  href="https://t.me/roman_pustoslov" 
-                  target="_blank" 
-                  class="ble-fb-alt-btn"
-                  title="Написать автору в Telegram"
-                >
-                  💬 Telegram автора ↗
-                </a>
-                <a 
-                  href="https://cusdis.com/dashboard" 
-                  target="_blank" 
-                  id="ble-cusdis-direct-link"
-                  class="ble-fb-alt-btn"
-                  style="display: none;"
-                >
-                  Открыть ветку Cusdis ↗
-                </a>
-              </div>
             </div>
             
             <div id="ble-fb-status" class="ble-fb-status"></div>
