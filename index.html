@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Роман Викторович Пустослов — Официальный сайт автора & БЛЭ</title>
+  <meta name="description" content="Официальный сайт писателя Романа Викторовича Пустослова и его кота-манула. Книги, бесплатное чтение на Author.Today и Litsovet, поддержка через Lava.top. Бюро латеральной экстраполяции.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090a0f;
+      --card-bg: rgba(18, 21, 31, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent: #e5a93c;
+      --accent-glow: rgba(229, 169, 60, 0.25);
+      --at-color: #3b82f6;
+      --at-glow: rgba(59, 130, 246, 0.25);
+      --emerald: #10b981;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --font-main: 'Inter', -apple-system, sans-serif;
+      --font-title: 'Cinzel', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-main);
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(229, 169, 60, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 85% 65%, rgba(59, 130, 246, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(16, 185, 129, 0.04) 0%, transparent 50%);
+      background-attachment: fixed;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      background: rgba(9, 10, 15, 0.85);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .nav-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--font-title);
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #fff;
+    }
+    .logo-badge {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      background: rgba(229, 169, 60, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(229, 169, 60, 0.3);
+      border-radius: 4px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.75rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      align-items: center;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      transition: color 0.2s ease;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .btn-donate-nav {
+      background: linear-gradient(135deg, #e5a93c, #f59e0b);
+      color: #000 !important;
+      font-weight: 600;
+      padding: 0.45rem 1rem;
+      border-radius: 6px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-donate-nav:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 3.5rem;
+      align-items: center;
+      padding: 3.5rem 0 4.5rem;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--emerald);
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      margin-bottom: 1.25rem;
+    }
+    .hero-title {
+      font-family: var(--font-title);
+      font-size: 3rem;
+      line-height: 1.15;
+      color: #fff;
+      margin-bottom: 1.25rem;
+    }
+    .hero-title span {
+      background: linear-gradient(135deg, #fff 40%, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-desc {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      max-width: 580px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.75rem;
+      font-weight: 600;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #d97706);
+      color: #090a0f;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(229, 169, 60, 0.4);
+    }
+    .btn-at-hero {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #fff;
+      box-shadow: 0 4px 20px var(--at-glow);
+    }
+    .btn-at-hero:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(37, 99, 235, 0.4);
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: #fff;
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-visual { position: relative; }
+    .hero-img-card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      background: #111;
+    }
+    .hero-img-card img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .hero-img-card:hover img { transform: scale(1.02); }
+    .hero-card-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.25rem;
+      background: linear-gradient(to top, rgba(9, 10, 15, 0.95), transparent);
+      font-size: 0.9rem;
+      color: #cbd5e1;
+    }
+
+    /* Section titles */
+    .section-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: var(--font-title);
+      font-size: 2.25rem;
+      color: #fff;
+    }
+
+    /* Books grid */
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 2rem;
+    }
+    .book-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(12px);
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+    .book-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(229, 169, 60, 0.35);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+    .book-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .book-tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      background: rgba(229, 169, 60, 0.1);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+    }
+    .book-free-badge {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--emerald);
+      background: rgba(16, 185, 129, 0.15);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .book-title {
+      font-size: 1.4rem;
+      color: #fff;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+    .book-annotation {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+    .book-links {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .btn-at {
+      padding: 0.55rem 1.1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 6px;
+      background: rgba(37, 99, 235, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(37, 99, 235, 0.35);
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .btn-at:hover {
+      background: #2563eb;
+      color: #fff;
+      border-color: #2563eb;
+      box-shadow: 0 4px 12px var(--at-glow);
+    }
+    .btn-read {
+      padding: 0.55rem 1.1rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
+      transition: all 0.2s;
+    }
+    .btn-read:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Platforms Bar */
+    .platforms-section {
+      background: rgba(18, 21, 31, 0.4);
+      border-top: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+      padding: 4rem 0;
+      margin: 4rem 0;
+    }
+    .platform-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.25rem;
+    }
+    .platform-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .platform-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .platform-name {
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.35rem;
+    }
+    .platform-badge {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Support section (Lava.top + Boosty) */
+    .support-box {
+      background: linear-gradient(135deg, rgba(229, 169, 60, 0.1), rgba(16, 185, 129, 0.05));
+      border: 1px solid rgba(229, 169, 60, 0.25);
+      border-radius: 16px;
+      padding: 3.5rem 2rem;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .support-box h3 {
+      font-family: var(--font-title);
+      font-size: 2.25rem;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+    .support-box p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 650px;
+      margin: 0 auto 2.5rem;
+    }
+    .support-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .btn-lava {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #000;
+      font-weight: 700;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+      font-size: 1.05rem;
+    }
+    .btn-lava:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(245, 158, 11, 0.5);
+    }
+    .btn-boosty {
+      background: #ea580c;
+      color: #fff;
+      font-weight: 600;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-size: 1.05rem;
+    }
+    .btn-boosty:hover {
+      transform: translateY(-2px);
+      background: #c2410c;
+    }
+
+    /* Manul Spotlight */
+    .manul-section {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 3rem;
+      align-items: center;
+      margin: 4.5rem 0;
+    }
+    .manul-img-wrapper {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+    }
+    .manul-img-wrapper img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 3rem 1.5rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 868px) {
+      .hero { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-img-card img { height: 360px; }
+      .manul-section { grid-template-columns: 1fr; }
+      .hero-title { font-size: 2.2rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <div class="logo">
+        <span>РОМАН ПУСТОСЛОВ</span>
+        <span class="logo-badge">БЛЭ</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#about">Об авторе & Манул</a>
+        <a href="#books">Книги</a>
+        <a href="https://author.today/u/romanpustoslov/works" target="_blank" style="color: #60a5fa; font-weight: 600;">Author.Today Works ↗</a>
+        <a href="#platforms">Где читать</a>
+        <a href="#support">Поддержать</a>
+        <a href="https://app.lava.top/roman.pustoslov" target="_blank" class="btn-donate-nav">Донат (Lava.top)</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-tag">● Бюро латеральной экстраполяции</div>
+        <h1 class="hero-title">Роман Викторович <span>Пустослов</span></h1>
+        <p class="hero-desc">
+          Писатель, исследователь метамодерна и цифровых иллюзий. Остросюжетная сатира на эпоху алгоритмического капитализма, иронический киберпанк и поиск живого человеческого тепла.
+        </p>
+        <div class="hero-actions">
+          <a href="https://author.today/u/romanpustoslov/works" target="_blank" class="btn btn-at-hero">
+            📚 Читать на Author.Today
+          </a>
+          <a href="#books" class="btn btn-secondary">Каталог книг ↓</a>
+          <a href="https://app.lava.top/roman.pustoslov" target="_blank" class="btn btn-primary">⚡ Поддержать автора</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-img-card">
+          <img src="assets/images/roman_and_manul_ref1.png" alt="Роман Викторович Пустослов и Манул">
+          <div class="hero-card-caption">
+            <strong>Роман Викторович Пустослов и Манул</strong><br>
+            Канонический портрет студии БЛЭ.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Manul Section -->
+    <section class="manul-section" id="about">
+      <div class="manul-img-wrapper">
+        <img src="assets/images/roman_and_manul_ref2.png" alt="Манул — главный литературный цензор">
+      </div>
+      <div class="manul-content">
+        <div class="section-eyebrow">Маскот & Соавтор</div>
+        <h2 class="section-title" style="text-align: left; margin-bottom: 1rem;">Манул Романа Пустослова</h2>
+        <p style="color: var(--text-muted); font-size: 1.05rem; margin-bottom: 1.25rem;">
+          Манул — главный литературный цензор студии и редактор первой линии. Ни одна глава не уходит в печать и на платформы без его негласного одобрения. 
+        </p>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+          «Манул смотрит в экран не потому, что умеет читать код или буквы. Он чувствует фальшь и лишний канцелярит задолго до того, как его отловят алгоритмы».
+        </p>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <a href="https://author.today/u/romanpustoslov" target="_blank" class="btn btn-at">
+            Профиль на Author.Today ↗
+          </a>
+          <a href="https://author.today/u/romanpustoslov/works" target="_blank" class="btn btn-secondary">
+            Все произведения автора ↗
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Books Section -->
+    <section id="books" style="padding-top: 3rem;">
+      <div class="section-header">
+        <div class="section-eyebrow">Каталог произведений</div>
+        <h2 class="section-title">Книги в свободном доступе</h2>
+      </div>
+
+      <div class="books-grid">
+        <!-- Book 1: Зеленый Свет -->
+        <div class="book-card">
+          <div>
+            <div class="book-meta">
+              <span class="book-tag">Социальная фантастика</span>
+              <span class="book-free-badge">БЕСПЛАТНО</span>
+            </div>
+            <h3 class="book-title">Зеленый Свет</h3>
+            <p class="book-annotation">
+              В Голливуде «получить зелёный свет» теперь означает не то, о чём мечтают в актёрских школах. Это строчка в реестре согласий, позволяющая студии оцифровать тебя и запустить вечнозелёный дубль в цифровой Купол.
+            </p>
+          </div>
+          <div class="book-links">
+            <a href="https://author.today/work/668685" target="_blank" class="btn-at">📖 Author.Today ↗</a>
+            <a href="https://litsovet.ru/books/1002391-zelenyy-svet/read" target="_blank" class="btn-read">Litsovet</a>
+          </div>
+        </div>
+
+        <!-- Book 2: Воин выходного дня -->
+        <div class="book-card">
+          <div>
+            <div class="book-meta">
+              <span class="book-tag">Цикл «Воин» №1</span>
+              <span class="book-free-badge">БЕСПЛАТНО</span>
+            </div>
+            <h3 class="book-title">Воин выходного дня</h3>
+            <p class="book-annotation">
+              Олег ехал на электричке в Подмосковье не за просветлением — за тем, чтобы хоть кто-нибудь сказал ему, как жить. В санатории его встретил дон Гена — человек в олимпийке, говоривший голосом тысячелетий.
+            </p>
+          </div>
+          <div class="book-links">
+            <a href="https://author.today/work/647949" target="_blank" class="btn-at">📖 Author.Today ↗</a>
+            <a href="https://litsovet.ru/books/1001672-voin-vyhodnogo-dnya/read" target="_blank" class="btn-read">Litsovet</a>
+          </div>
+        </div>
+
+        <!-- Book 3: Воин рабочей недели -->
+        <div class="book-card">
+          <div>
+            <div class="book-meta">
+              <span class="book-tag">Цикл «Воин» №2</span>
+              <span class="book-free-badge">БЕСПЛАТНО</span>
+            </div>
+            <h3 class="book-title">Воин рабочей недели</h3>
+            <p class="book-annotation">
+              Продолжение романа «Воин выходного дня». Возвращение из санатория в бетонную реальность опенспейсов, KPI и корпоративных ритуалов. Испытание прочности обретенного дзена.
+            </p>
+          </div>
+          <div class="book-links">
+            <a href="https://author.today/work/647968" target="_blank" class="btn-at">📖 Author.Today ↗</a>
+            <a href="https://litsovet.ru/books/1001673-voin-rabochey-nedeli/read" target="_blank" class="btn-read">Litsovet</a>
+          </div>
+        </div>
+
+        <!-- Book 4: Бородатые -->
+        <div class="book-card">
+          <div>
+            <div class="book-meta">
+              <span class="book-tag">Сатира / Сборник</span>
+              <span class="book-free-badge">БЕСПЛАТНО</span>
+            </div>
+            <h3 class="book-title">Бородатые</h3>
+            <p class="book-annotation">
+              Бородатые анекдоты, рассказанные заново — в реальности, где менеджер прогревает аудиторию, курьер везёт тепло, а шутки уже научилась генерировать машина. Последний раз вслух, пока ещё смешно.
+            </p>
+          </div>
+          <div class="book-links">
+            <a href="https://author.today/work/614768" target="_blank" class="btn-at">📖 Author.Today ↗</a>
+            <a href="https://litsovet.ru/books/1000755-borodatye/read" target="_blank" class="btn-read">Litsovet</a>
+          </div>
+        </div>
+
+        <!-- Book 5: Прогрев -->
+        <div class="book-card">
+          <div>
+            <div class="book-meta">
+              <span class="book-tag">Кибер-притча</span>
+              <span class="book-free-badge">БЕСПЛАТНО</span>
+            </div>
+            <h3 class="book-title">Прогрев</h3>
+            <p class="book-annotation">
+              Лена ставит мемам оценки на залипательность и токсичность, пока обученная модель не выносит из сети то, что умеет распространяться лучше всех. Новелла о внимании как валюте — и о тепле без охватов.
+            </p>
+          </div>
+          <div class="book-links">
+            <a href="https://author.today/work/612444" target="_blank" class="btn-at">📖 Author.Today ↗</a>
+            <a href="https://litsovet.ru/books/1000713-progrev/read" target="_blank" class="btn-read">Litsovet</a>
+          </div>
+        </div>
+
+        <!-- Book 6: Письма Анне -->
+        <div class="book-card">
+          <div>
+            <div class="book-meta">
+              <span class="book-tag">Психологическая проза</span>
+              <span class="book-free-badge">БЕСПЛАТНО</span>
+            </div>
+            <h3 class="book-title">Письма Анне</h3>
+            <p class="book-annotation">
+              Старый переводчик в женевском пансионе каждый день пишет письма женщине, которая когда-то жила в соседней квартире в Петербурге. Тихий рассказ о том, как человек строит из памяти единственную спасительную комнату.
+            </p>
+          </div>
+          <div class="book-links">
+            <a href="https://author.today/work/612441" target="_blank" class="btn-at">📖 Author.Today ↗</a>
+            <a href="https://litsovet.ru/books/1000714-pisma-anne/read" target="_blank" class="btn-read">Litsovet</a>
+          </div>
+        </div>
+
+        <!-- Book 7: Отдел возвратов -->
+        <div class="book-card">
+          <div>
+            <div class="book-meta">
+              <span class="book-tag">Ироническая проза</span>
+              <span class="book-free-badge">БЕСПЛАТНО</span>
+            </div>
+            <h3 class="book-title">Отдел возвратов</h3>
+            <p class="book-annotation">
+              Бюрократия метафизического масштаба: куда обращаться, если выданная вам жизнь оказалась бракованной, комплектация не совпадает, а гарантийный срок истек еще в прошлом столетии.
+            </p>
+          </div>
+          <div class="book-links">
+            <a href="https://author.today/work/609740" target="_blank" class="btn-at">📖 Author.Today ↗</a>
+            <a href="https://litsovet.ru/books/1000712-sad-grishi/read" target="_blank" class="btn-read">Litsovet</a>
+          </div>
+        </div>
+
+        <!-- Book 8: Роман Пу - 100 слов -->
+        <div class="book-card">
+          <div>
+            <div class="book-meta">
+              <span class="book-tag">Микропроза / Концепт</span>
+              <span class="book-free-badge">БЕСПЛАТНО</span>
+            </div>
+            <h3 class="book-title">Роман Пу - 100 слов</h3>
+            <p class="book-annotation">
+              Каждый текст — ровно сто слов. Ни больше, ни меньше. Предельная концентрация смысла, иронии, парадокса и сюжетного поворота в формате мгновенного чтения.
+            </p>
+          </div>
+          <div class="book-links">
+            <a href="https://author.today/work/604814" target="_blank" class="btn-at">📖 Author.Today ↗</a>
+            <a href="https://author.today/u/romanpustoslov/works" target="_blank" class="btn-read">Сборник на AT</a>
+          </div>
+        </div>
+
+        <!-- Book 9: Сад Гриши -->
+        <div class="book-card">
+          <div>
+            <div class="book-meta">
+              <span class="book-tag">Современная новелла</span>
+              <span class="book-free-badge">БЕСПЛАТНО</span>
+            </div>
+            <h3 class="book-title">Сад Гриши</h3>
+            <p class="book-annotation">
+              История о пространстве, где законы природы и времени подчиняются спокойному человеческому труду. Уютная новелла о призвании, тишине и плодах, созревающих вопреки всему.
+            </p>
+          </div>
+          <div class="book-links">
+            <a href="https://author.today/work/612424" target="_blank" class="btn-at">📖 Author.Today ↗</a>
+            <a href="https://litsovet.ru/books/1000712-sad-grishi/read" target="_blank" class="btn-read">Litsovet</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Platforms Bar -->
+  <section class="platforms-section" id="platforms">
+    <div class="container" style="padding-top: 0; padding-bottom: 0;">
+      <div class="section-header" style="margin-bottom: 2.5rem;">
+        <div class="section-eyebrow">Экосистема</div>
+        <h2 class="section-title">Где читать книги автора</h2>
+      </div>
+      <div class="platform-cards">
+        <a href="https://author.today/u/romanpustoslov/works" target="_blank" class="platform-card" style="border-color: rgba(59, 130, 246, 0.4);">
+          <div class="platform-name" style="color: #60a5fa;">Author.Today</div>
+          <div class="platform-badge">Каталог произведений автора</div>
+        </a>
+        <a href="https://litsovet.ru/user/137387" target="_blank" class="platform-card">
+          <div class="platform-name">Litsovet.ru</div>
+          <div class="platform-badge">Каталог 9 книг онлайн</div>
+        </a>
+        <a href="https://ficbook.net" target="_blank" class="platform-card">
+          <div class="platform-name">Ficbook</div>
+          <div class="platform-badge">Ориджиналы & драмы</div>
+        </a>
+        <a href="https://bookriver.ru" target="_blank" class="platform-card">
+          <div class="platform-name">Букривер</div>
+          <div class="platform-badge">Мобильное чтение</div>
+        </a>
+        <a href="https://zelluloza.ru" target="_blank" class="platform-card">
+          <div class="platform-name">Целлюлоза</div>
+          <div class="platform-badge">Поглавный самиздат</div>
+        </a>
+        <a href="https://litmarket.ru" target="_blank" class="platform-card">
+          <div class="platform-name">Литмаркет</div>
+          <div class="platform-badge">Экосистема самиздата</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Support Section -->
+  <div class="container" id="support">
+    <div class="support-box">
+      <div class="section-eyebrow">Прямая поддержка</div>
+      <h3>Поддержать Романа Викторовича и Манула</h3>
+      <p>
+        Все книги публикуются бесплатно. Если вам откликаются тексты, вы можете отправить автору донат на кофе или угощение Манулу. Подписчики получают ранний доступ к новым черновикам и эксклюзивным материалам.
+      </p>
+      <div class="support-buttons">
+        <a href="https://app.lava.top/roman.pustoslov" target="_blank" class="btn btn-lava">
+          ⚡ Отправить донат через Lava.top (РФ и Мир)
+        </a>
+        <a href="https://boosty.to" target="_blank" class="btn btn-boosty">
+          🧡 Подписаться на Boosty
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container" style="padding-top: 1rem; padding-bottom: 1rem;">
+      <p style="margin-bottom: 0.5rem; font-weight: 500; color: #fff;">
+        «Бюро латеральной экстраполяции» (БЛЭ)
+      </p>
+      <p>
+        © 2026 Роман Викторович Пустослов. Все права защищены. Тексты распространяются для свободного чтения на Author.Today и партнерских платформах.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
