@@ -460,81 +460,83 @@
     }
     .book-links {
       display: flex;
-      gap: 0.6rem;
+      align-items: center;
+      gap: 0.75rem;
       flex-wrap: wrap;
-    }
-    .btn-at {
-      padding: 0.5rem 0.9rem;
-      font-size: 0.82rem;
-      font-weight: 600;
-      border-radius: 6px;
-      background: rgba(37, 99, 235, 0.15);
-      color: #60a5fa;
-      border: 1px solid rgba(37, 99, 235, 0.35);
-      transition: all 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-    .btn-at:hover {
-      background: #2563eb;
-      color: #fff;
-      border-color: #2563eb;
-      box-shadow: 0 4px 12px var(--at-glow);
-    }
-    .btn-litres {
-      padding: 0.5rem 0.9rem;
-      font-size: 0.82rem;
-      font-weight: 600;
-      border-radius: 6px;
-      background: rgba(255, 87, 34, 0.15);
-      color: #ff8a65;
-      border: 1px solid rgba(255, 87, 34, 0.35);
-      transition: all 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-    .btn-litres:hover {
-      background: #ff5722;
-      color: #fff;
-      border-color: #ff5722;
-      box-shadow: 0 4px 12px var(--litres-glow);
-    }
-    .btn-read {
-      padding: 0.5rem 0.9rem;
-      font-size: 0.82rem;
-      font-weight: 500;
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--card-border);
-      transition: all 0.2s;
-    }
-    .btn-read:hover {
-      background: rgba(255, 255, 255, 0.15);
-      color: #fff;
-      border-color: rgba(255, 255, 255, 0.3);
+      margin-top: 1rem;
     }
     .btn-read-ble {
-      padding: 0.5rem 1rem;
-      font-size: 0.85rem;
+      flex: 1 1 auto;
+      min-width: 140px;
+      padding: 0.65rem 1.25rem;
+      font-size: 0.95rem;
       font-weight: 700;
-      border-radius: 6px;
-      background: linear-gradient(135deg, rgba(229, 169, 60, 0.25), rgba(16, 185, 129, 0.15));
-      color: #f6c876;
-      border: 1px solid var(--ble-gold, #e5a93c);
-      transition: all 0.2s;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #e5a93c, #d97706);
+      color: #090a0f !important;
+      border: 1px solid rgba(229, 169, 60, 0.8);
+      box-shadow: 0 4px 15px rgba(229, 169, 60, 0.25);
+      transition: all 0.25s ease;
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
+      justify-content: center;
+      gap: 0.5rem;
       text-decoration: none;
       cursor: pointer;
     }
     .btn-read-ble:hover {
-      background: linear-gradient(135deg, #e5a93c, #10b981);
-      color: #0b0f17;
-      box-shadow: 0 4px 15px rgba(229, 169, 60, 0.4);
+      background: linear-gradient(135deg, #f59e0b, #e5a93c);
+      box-shadow: 0 6px 20px rgba(229, 169, 60, 0.45);
       transform: translateY(-2px);
+    }
+    .platform-icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      position: relative;
+    }
+    .platform-icon-btn:hover {
+      transform: translateY(-2px);
+    }
+    .platform-icon-btn.litres {
+      border-color: rgba(255, 87, 34, 0.35);
+      color: #ff8a65;
+      background: rgba(255, 87, 34, 0.1);
+    }
+    .platform-icon-btn.litres:hover {
+      background: #ff5722;
+      color: #fff;
+      box-shadow: 0 4px 12px var(--litres-glow);
+    }
+    .platform-icon-btn.at {
+      border-color: rgba(59, 130, 246, 0.35);
+      color: #60a5fa;
+      background: rgba(59, 130, 246, 0.1);
+    }
+    .platform-icon-btn.at:hover {
+      background: #2563eb;
+      color: #fff;
+      box-shadow: 0 4px 12px var(--at-glow);
+    }
+    .platform-icon-btn.litsovet {
+      border-color: rgba(16, 185, 129, 0.35);
+      color: #34d399;
+      background: rgba(16, 185, 129, 0.1);
+    }
+    .platform-icon-btn.litsovet:hover {
+      background: #10b981;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
     }
 
     /* Platforms Bar */
@@ -858,10 +860,10 @@
             </p>
           </div>
           <div class="book-links">
-            <a href="#read/zelyony-svet/1" class="btn-read-ble">📖 Читать онлайн</a>
-            <a href="https://selfpub.ru/books/1182349" target="_blank" class="btn-litres">Литрес ↗</a>
-            <a href="https://author.today/work/668685" target="_blank" class="btn-at">Author.Today ↗</a>
-            <a href="https://litsovet.ru/books/1002391-zelenyy-svet/read" target="_blank" class="btn-read">Litsovet</a>
+            <a href="#read/zelyony-svet/1" class="btn-read-ble">📖 Читать книгу</a>
+            <a href="https://selfpub.ru/books/1182349" target="_blank" rel="noopener" class="platform-icon-btn litres" title="Читать «Зеленый Свет» на Литрес" aria-label="Литрес">ЛР</a>
+            <a href="https://author.today/work/668685" target="_blank" rel="noopener" class="platform-icon-btn at" title="Читать «Зеленый Свет» на Author.Today" aria-label="Author.Today">AT</a>
+            <a href="https://litsovet.ru/books/1002391-zelenyy-svet/read" target="_blank" rel="noopener" class="platform-icon-btn litsovet" title="Читать «Зеленый Свет» на Litsovet" aria-label="Litsovet">ЛС</a>
           </div>
         </div>
 
@@ -878,10 +880,10 @@
             </p>
           </div>
           <div class="book-links">
-            <a href="#read/voin-vyhodnogo-dnya/1" class="btn-read-ble">📖 Читать онлайн</a>
-            <a href="https://selfpub.ru/books/1182367" target="_blank" class="btn-litres">Литрес ↗</a>
-            <a href="https://author.today/work/647949" target="_blank" class="btn-at">Author.Today ↗</a>
-            <a href="https://litsovet.ru/books/1001672-voin-vyhodnogo-dnya/read" target="_blank" class="btn-read">Litsovet</a>
+            <a href="#read/voin-vyhodnogo-dnya/1" class="btn-read-ble">📖 Читать книгу</a>
+            <a href="https://selfpub.ru/books/1182367" target="_blank" rel="noopener" class="platform-icon-btn litres" title="Читать «Воин выходного дня» на Литрес" aria-label="Литрес">ЛР</a>
+            <a href="https://author.today/work/647949" target="_blank" rel="noopener" class="platform-icon-btn at" title="Читать «Воин выходного дня» на Author.Today" aria-label="Author.Today">AT</a>
+            <a href="https://litsovet.ru/books/1001672-voin-vyhodnogo-dnya/read" target="_blank" rel="noopener" class="platform-icon-btn litsovet" title="Читать «Воин выходного дня» на Litsovet" aria-label="Litsovet">ЛС</a>
           </div>
         </div>
 
@@ -898,10 +900,10 @@
             </p>
           </div>
           <div class="book-links">
-            <a href="#read/voin-rabochey-nedeli/1" class="btn-read-ble">📖 Читать онлайн</a>
-            <a href="https://selfpub.ru/books/1182372" target="_blank" class="btn-litres">Литрес ↗</a>
-            <a href="https://author.today/work/647968" target="_blank" class="btn-at">Author.Today ↗</a>
-            <a href="https://litsovet.ru/books/1001673-voin-rabochey-nedeli/read" target="_blank" class="btn-read">Litsovet</a>
+            <a href="#read/voin-rabochey-nedeli/1" class="btn-read-ble">📖 Читать книгу</a>
+            <a href="https://selfpub.ru/books/1182372" target="_blank" rel="noopener" class="platform-icon-btn litres" title="Читать «Воин рабочей недели» на Литрес" aria-label="Литрес">ЛР</a>
+            <a href="https://author.today/work/647968" target="_blank" rel="noopener" class="platform-icon-btn at" title="Читать «Воин рабочей недели» на Author.Today" aria-label="Author.Today">AT</a>
+            <a href="https://litsovet.ru/books/1001673-voin-rabochey-nedeli/read" target="_blank" rel="noopener" class="platform-icon-btn litsovet" title="Читать «Воин рабочей недели» на Litsovet" aria-label="Litsovet">ЛС</a>
           </div>
         </div>
 
@@ -918,10 +920,10 @@
             </p>
           </div>
           <div class="book-links">
-            <a href="#read/borodatye/1" class="btn-read-ble">📖 Читать онлайн</a>
-            <a href="https://selfpub.ru/books/1182374" target="_blank" class="btn-litres">Литрес ↗</a>
-            <a href="https://author.today/work/614768" target="_blank" class="btn-at">Author.Today ↗</a>
-            <a href="https://litsovet.ru/books/1000755-borodatye/read" target="_blank" class="btn-read">Litsovet</a>
+            <a href="#read/borodatye/1" class="btn-read-ble">📖 Читать книгу</a>
+            <a href="https://selfpub.ru/books/1182374" target="_blank" rel="noopener" class="platform-icon-btn litres" title="Читать «Бородатые» на Литрес" aria-label="Литрес">ЛР</a>
+            <a href="https://author.today/work/614768" target="_blank" rel="noopener" class="platform-icon-btn at" title="Читать «Бородатые» на Author.Today" aria-label="Author.Today">AT</a>
+            <a href="https://litsovet.ru/books/1000755-borodatye/read" target="_blank" rel="noopener" class="platform-icon-btn litsovet" title="Читать «Бородатые» на Litsovet" aria-label="Litsovet">ЛС</a>
           </div>
         </div>
 
@@ -938,10 +940,10 @@
             </p>
           </div>
           <div class="book-links">
-            <a href="#read/progrev/1" class="btn-read-ble">📖 Читать онлайн</a>
-            <a href="https://selfpub.ru/books/1182376" target="_blank" class="btn-litres">Литрес ↗</a>
-            <a href="https://author.today/work/612444" target="_blank" class="btn-at">Author.Today ↗</a>
-            <a href="https://litsovet.ru/books/1000713-progrev/read" target="_blank" class="btn-read">Litsovet</a>
+            <a href="#read/progrev/1" class="btn-read-ble">📖 Читать книгу</a>
+            <a href="https://selfpub.ru/books/1182376" target="_blank" rel="noopener" class="platform-icon-btn litres" title="Читать «Прогрев» на Литрес" aria-label="Литрес">ЛР</a>
+            <a href="https://author.today/work/612444" target="_blank" rel="noopener" class="platform-icon-btn at" title="Читать «Прогрев» на Author.Today" aria-label="Author.Today">AT</a>
+            <a href="https://litsovet.ru/books/1000713-progrev/read" target="_blank" rel="noopener" class="platform-icon-btn litsovet" title="Читать «Прогрев» на Litsovet" aria-label="Litsovet">ЛС</a>
           </div>
         </div>
 
@@ -958,10 +960,10 @@
             </p>
           </div>
           <div class="book-links">
-            <a href="#read/pisma-anne/1" class="btn-read-ble">📖 Читать онлайн</a>
-            <a href="https://selfpub.ru/books/1182379" target="_blank" class="btn-litres">Литрес ↗</a>
-            <a href="https://author.today/work/612441" target="_blank" class="btn-at">Author.Today ↗</a>
-            <a href="https://litsovet.ru/books/1000714-pisma-anne/read" target="_blank" class="btn-read">Litsovet</a>
+            <a href="#read/pisma-anne/1" class="btn-read-ble">📖 Читать книгу</a>
+            <a href="https://selfpub.ru/books/1182379" target="_blank" rel="noopener" class="platform-icon-btn litres" title="Читать «Письма Анне» на Литрес" aria-label="Литрес">ЛР</a>
+            <a href="https://author.today/work/612441" target="_blank" rel="noopener" class="platform-icon-btn at" title="Читать «Письма Анне» на Author.Today" aria-label="Author.Today">AT</a>
+            <a href="https://litsovet.ru/books/1000714-pisma-anne/read" target="_blank" rel="noopener" class="platform-icon-btn litsovet" title="Читать «Письма Анне» на Litsovet" aria-label="Litsovet">ЛС</a>
           </div>
         </div>
 
@@ -978,10 +980,10 @@
             </p>
           </div>
           <div class="book-links">
-            <a href="#read/otdel-vozvrata/1" class="btn-read-ble">📖 Читать онлайн</a>
-            <a href="https://selfpub.ru/books/1086933" target="_blank" class="btn-litres">Литрес ↗</a>
-            <a href="https://author.today/work/609740" target="_blank" class="btn-at">Author.Today ↗</a>
-            <a href="https://litsovet.ru/user/137387" target="_blank" class="btn-read">Litsovet</a>
+            <a href="#read/otdel-vozvrata/1" class="btn-read-ble">📖 Читать книгу</a>
+            <a href="https://selfpub.ru/books/1086933" target="_blank" rel="noopener" class="platform-icon-btn litres" title="Читать «Отдел возврата» на Литрес" aria-label="Литрес">ЛР</a>
+            <a href="https://author.today/work/609740" target="_blank" rel="noopener" class="platform-icon-btn at" title="Читать «Отдел возврата» на Author.Today" aria-label="Author.Today">AT</a>
+            <a href="https://litsovet.ru/user/137387" target="_blank" rel="noopener" class="platform-icon-btn litsovet" title="Читать «Отдел возврата» на Litsovet" aria-label="Litsovet">ЛС</a>
           </div>
         </div>
 
@@ -998,10 +1000,10 @@
             </p>
           </div>
           <div class="book-links">
-            <a href="#read/100-slov/1" class="btn-read-ble">📖 Читать онлайн</a>
-            <a href="https://selfpub.ru/books/1092858" target="_blank" class="btn-litres">Литрес ↗</a>
-            <a href="https://author.today/work/604814" target="_blank" class="btn-at">Author.Today ↗</a>
-            <a href="https://author.today/u/romanpustoslov/works" target="_blank" class="btn-read">Сборник на AT</a>
+            <a href="#read/100-slov/1" class="btn-read-ble">📖 Читать книгу</a>
+            <a href="https://selfpub.ru/books/1092858" target="_blank" rel="noopener" class="platform-icon-btn litres" title="Читать «Роман Пу - 100 слов» на Литрес" aria-label="Литрес">ЛР</a>
+            <a href="https://author.today/work/604814" target="_blank" rel="noopener" class="platform-icon-btn at" title="Читать «Роман Пу - 100 слов» на Author.Today" aria-label="Author.Today">AT</a>
+            <a href="https://author.today/u/romanpustoslov/works" target="_blank" rel="noopener" class="platform-icon-btn at" title="Все произведения автора на Author.Today" aria-label="Author.Today">📚</a>
           </div>
         </div>
 
@@ -1018,10 +1020,10 @@
             </p>
           </div>
           <div class="book-links">
-            <a href="#read/sad-grishi/1" class="btn-read-ble">📖 Читать онлайн</a>
-            <a href="https://selfpub.ru/books/1182382" target="_blank" class="btn-litres">Литрес ↗</a>
-            <a href="https://author.today/work/612424" target="_blank" class="btn-at">Author.Today ↗</a>
-            <a href="https://litsovet.ru/books/1000712-sad-grishi/read" target="_blank" class="btn-read">Litsovet</a>
+            <a href="#read/sad-grishi/1" class="btn-read-ble">📖 Читать книгу</a>
+            <a href="https://selfpub.ru/books/1182382" target="_blank" rel="noopener" class="platform-icon-btn litres" title="Читать «Сад Гриши» на Литрес" aria-label="Литрес">ЛР</a>
+            <a href="https://author.today/work/612424" target="_blank" rel="noopener" class="platform-icon-btn at" title="Читать «Сад Гриши» на Author.Today" aria-label="Author.Today">AT</a>
+            <a href="https://litsovet.ru/books/1000712-sad-grishi/read" target="_blank" rel="noopener" class="platform-icon-btn litsovet" title="Читать «Сад Гриши» на Litsovet" aria-label="Litsovet">ЛС</a>
           </div>
         </div>
       </div>
