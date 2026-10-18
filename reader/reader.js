@@ -26,6 +26,7 @@ class BLEReaderController {
     this.comicData = null;
     this.comicPageIndex = 0;
     this.comicMode = 'page'; // 'page' (постранично) или 'tape' (вертикальная лента / webtoon)
+    this.isComicZoomed = false; // Масштаб 100% vs по экрану
 
     // Ссылки на DOM элементы
     this.dom = {};
@@ -109,15 +110,29 @@ class BLEReaderController {
     this.dom.comicHeaderTitle = document.getElementById('ble-comic-header-title');
     this.dom.comicCounter = document.getElementById('ble-comic-counter');
     this.dom.comicModeBtn = document.getElementById('ble-comic-mode-btn');
+    this.dom.comicZoomBtn = document.getElementById('ble-comic-zoom-btn');
+    this.dom.comicZoomBtnBottom = document.getElementById('ble-comic-zoom-btn-bottom');
+    this.dom.comicZoomHint = document.getElementById('ble-comic-zoom-hint');
+    this.dom.comicFullscreenBtn = document.getElementById('ble-comic-fullscreen-btn');
     this.dom.comicPdfBtn = document.getElementById('ble-comic-pdf-btn');
     this.dom.comicPageView = document.getElementById('ble-comic-page-view');
     this.dom.comicTapeView = document.getElementById('ble-comic-tape-view');
     this.dom.comicCurrentImg = document.getElementById('ble-comic-current-img');
     this.dom.comicThumbs = document.getElementById('ble-comic-thumbs');
+    this.dom.comicBody = document.getElementById('ble-comic-body');
   }
 
   bindEvents() {
     window.addEventListener('hashchange', () => this.onHashChange());
+
+    // Отслеживание выхода из полноэкранного режима
+    document.addEventListener('fullscreenchange', () => {
+      const isFs = !!document.fullscreenElement;
+      if (this.dom.comicFullscreenBtn) {
+        this.dom.comicFullscreenBtn.textContent = isFs ? '⛶ Обычный вид' : '⛶ Во весь экран';
+        this.dom.comicFullscreenBtn.classList.toggle('active', isFs);
+      }
+    });
 
     // Глобальное закрытие и шорткаты
     document.addEventListener('keydown', (e) => {
@@ -140,6 +155,15 @@ class BLEReaderController {
           e.preventDefault();
         } else if (e.key === 'ArrowLeft') {
           this.comicPrevPage();
+          e.preventDefault();
+        } else if (e.key === '+' || e.key === '=') {
+          this.toggleComicZoom(true);
+          e.preventDefault();
+        } else if (e.key === '-' || e.key === '_') {
+          this.toggleComicZoom(false);
+          e.preventDefault();
+        } else if (e.key === 'f' || e.key === 'F' || e.key === 'а' || e.key === 'А') {
+          this.toggleComicFullscreen();
           e.preventDefault();
         }
         return;
@@ -657,6 +681,12 @@ class BLEReaderController {
     this.comicData = book.comic;
     this.comicPageIndex = 0;
     this.comicMode = 'page';
+    this.isComicZoomed = false;
+
+    if (this.dom.comicModal) {
+      this.dom.comicModal.classList.remove('is-zoomed');
+    }
+    this.updateComicZoomUI();
 
     if (this.dom.comicHeaderTitle) {
       this.dom.comicHeaderTitle.textContent = book.comic.title || `${book.title} — Комикс-адаптация`;
@@ -694,7 +724,55 @@ class BLEReaderController {
   closeComic() {
     if (!this.dom.comicModal) return;
     this.dom.comicModal.classList.remove('active');
+    this.dom.comicModal.classList.remove('is-zoomed');
+    this.isComicZoomed = false;
     document.body.classList.remove('ble-comic-open');
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
+
+  toggleComicZoom(forceState) {
+    if (!this.comicData) return;
+    this.isComicZoomed = (typeof forceState === 'boolean') ? forceState : !this.isComicZoomed;
+    if (this.dom.comicModal) {
+      this.dom.comicModal.classList.toggle('is-zoomed', this.isComicZoomed);
+    }
+    this.updateComicZoomUI();
+  }
+
+  updateComicZoomUI() {
+    const isZoomed = this.isComicZoomed;
+    if (this.dom.comicZoomBtn) {
+      this.dom.comicZoomBtn.textContent = isZoomed ? '🔍 По экрану' : '🔍 100%';
+      this.dom.comicZoomBtn.classList.toggle('active', isZoomed);
+      this.dom.comicZoomBtn.title = isZoomed ? 'Уменьшить до размера экрана' : 'Увеличить страницу до 100% (исходное разрешение)';
+    }
+    if (this.dom.comicZoomBtnBottom) {
+      this.dom.comicZoomBtnBottom.textContent = isZoomed ? '🔍 По экрану' : '🔍 Увеличить (100%)';
+      this.dom.comicZoomBtnBottom.classList.toggle('active', isZoomed);
+    }
+    if (this.dom.comicZoomHint) {
+      this.dom.comicZoomHint.textContent = isZoomed ? '🔍 Кликните для уменьшения' : '🔍 Кликните для масштаба 100%';
+    }
+    if (this.dom.comicCurrentImg) {
+      this.dom.comicCurrentImg.title = isZoomed ? 'Кликните для уменьшения' : 'Кликните для увеличения (100%)';
+    }
+  }
+
+  toggleComicFullscreen() {
+    if (!document.fullscreenElement) {
+      const el = this.dom.comicModal || document.documentElement;
+      if (el.requestFullscreen) {
+        el.requestFullscreen().catch(() => {});
+      } else if (el.webkitRequestFullscreen) {
+        el.webkitRequestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
   }
 
   renderComicPage() {
@@ -706,6 +784,9 @@ class BLEReaderController {
     }
     if (this.dom.comicCounter) {
       this.dom.comicCounter.textContent = `Стр. ${this.comicPageIndex + 1} из ${this.comicData.pages_count}`;
+    }
+    if (this.dom.comicBody) {
+      this.dom.comicBody.scrollTop = 0;
     }
     this.updateComicThumbsActive();
   }
@@ -735,9 +816,9 @@ class BLEReaderController {
   renderComicTape() {
     if (!this.dom.comicTapeView || !this.comicData) return;
     this.dom.comicTapeView.innerHTML = this.comicData.pages.map(p => `
-      <div class="ble-comic-tape-item">
+      <div class="ble-comic-tape-item" onclick="bleReader.openLightbox('${p.image}', 'Полоса ${p.page_number} из ${this.comicData.pages_count}')" title="Кликните для полноэкранного просмотра полосы ${p.page_number}">
         <img src="${p.image}" alt="Полоса ${p.page_number}" loading="lazy">
-        <div class="ble-comic-tape-label">Полоса ${p.page_number} / ${this.comicData.pages_count}</div>
+        <div class="ble-comic-tape-label">Полоса ${p.page_number} / ${this.comicData.pages_count} • 🔍 Кликните для полноэкранного просмотра</div>
       </div>
     `).join('');
   }

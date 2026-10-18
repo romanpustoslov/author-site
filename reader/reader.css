@@ -901,24 +901,87 @@ body.ble-reader-open {
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: max-width 0.25s ease;
+}
+
+.ble-comic-img-wrapper {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-in;
+  max-width: 100%;
+  user-select: none;
+}
+
+.ble-comic-zoom-hint {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(9, 10, 15, 0.88);
+  border: 1px solid rgba(229, 169, 60, 0.5);
+  color: var(--ble-gold);
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  pointer-events: none;
+  opacity: 0.92;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
+}
+
+.ble-comic-img-wrapper:hover .ble-comic-zoom-hint {
+  background: var(--ble-gold);
+  color: #000;
+  transform: translateY(-2px);
 }
 
 .ble-comic-current-img {
-  width: 100%;
-  max-width: 860px;
+  width: auto;
+  max-width: 100%;
+  max-height: 78vh;
   height: auto;
   border-radius: 8px;
   box-shadow: 0 15px 45px rgba(0, 0, 0, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  cursor: pointer;
+  cursor: zoom-in;
+  transition: all 0.25s ease;
+}
+
+/* Zoomed mode (100% масштаб) */
+.ble-comic-modal.is-zoomed .ble-comic-page-view {
+  max-width: 1400px;
+  width: 100%;
+}
+
+.ble-comic-modal.is-zoomed .ble-comic-img-wrapper {
+  cursor: zoom-out;
+  width: 100%;
+}
+
+.ble-comic-modal.is-zoomed .ble-comic-current-img {
+  max-width: 100%;
+  max-height: none;
+  width: 100%;
+  cursor: zoom-out;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95);
+}
+
+.ble-comic-modal.is-zoomed .ble-comic-zoom-hint {
+  background: rgba(229, 169, 60, 0.95);
+  color: #000;
 }
 
 .ble-comic-page-nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 1.25rem;
   margin: 1.5rem 0;
+  flex-wrap: wrap;
 }
 
 .ble-comic-tape-view {
@@ -926,16 +989,29 @@ body.ble-reader-open {
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  max-width: 860px;
+  max-width: 900px;
   width: 100%;
+  transition: max-width 0.25s ease;
 }
 
-.ble-comic-tape-img {
+.ble-comic-modal.is-zoomed .ble-comic-tape-view {
+  max-width: 1400px;
+}
+
+.ble-comic-tape-item {
+  width: 100%;
+  position: relative;
+  cursor: zoom-in;
+}
+
+.ble-comic-tape-img,
+.ble-comic-tape-item img {
   width: 100%;
   height: auto;
   border-radius: 6px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.06);
+  display: block;
 }
 
 .ble-comic-thumbs-bar {

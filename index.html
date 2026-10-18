@@ -1211,20 +1211,32 @@
       </div>
       <div class="ble-comic-controls">
         <span id="ble-comic-counter" class="ble-comic-counter">Стр. 1 из 22</span>
+        <button id="ble-comic-zoom-btn" class="ble-comic-btn" onclick="bleReader.toggleComicZoom()" title="Переключить масштаб (100% / По экрану)">🔍 100%</button>
         <button id="ble-comic-mode-btn" class="ble-comic-btn" onclick="bleReader.toggleComicMode()">📜 Лента (Webtoon)</button>
-        <a id="ble-comic-pdf-btn" href="assets/comics/zelyony-svet/zelyony-svet-comic.pdf" download target="_blank" class="ble-comic-btn ble-comic-btn-pdf" title="Скачать комикс в формате PDF">📥 Скачать PDF (4.5 MB)</a>
-        <button class="ble-header-btn" onclick="bleReader.closeComic()" title="Закрыть комикс">✕</button>
+        <button id="ble-comic-fullscreen-btn" class="ble-comic-btn" onclick="bleReader.toggleComicFullscreen()" title="Полноэкранный режим">⛶ Во весь экран</button>
+        <a id="ble-comic-pdf-btn" href="assets/comics/zelyony-svet/zelyony-svet-comic.pdf" download="zelyony-svet-comic.pdf" target="_blank" class="ble-comic-btn ble-comic-btn-pdf" title="Скачать комикс в формате PDF">📥 PDF (4.5 MB)</a>
+        <button class="ble-header-btn" onclick="bleReader.closeComic()" title="Закрыть комикс (Esc)">✕</button>
       </div>
     </header>
 
     <div id="ble-comic-body" class="ble-comic-body">
       <!-- Режим постраничного просмотра -->
       <div id="ble-comic-page-view" class="ble-comic-page-view">
-        <img id="ble-comic-current-img" src="" alt="Страница комикса" class="ble-comic-current-img" onclick="bleReader.comicNextPage()" title="Нажмите для перехода к следующей странице">
+        <div class="ble-comic-img-wrapper" id="ble-comic-img-wrapper" onclick="bleReader.toggleComicZoom()">
+          <img 
+            id="ble-comic-current-img" 
+            src="" 
+            alt="Страница комикса" 
+            class="ble-comic-current-img" 
+            title="Кликните для увеличения / уменьшения масштаба (100%)"
+          >
+          <div class="ble-comic-zoom-hint" id="ble-comic-zoom-hint">🔍 Кликните для масштаба 100%</div>
+        </div>
         
         <div class="ble-comic-page-nav">
-          <button class="ble-comic-btn" onclick="bleReader.comicPrevPage()" title="Предыдущая страница">← Назад</button>
-          <button class="ble-comic-btn" onclick="bleReader.comicNextPage()" title="Следующая страница">Вперед →</button>
+          <button class="ble-comic-btn" onclick="bleReader.comicPrevPage()" title="Предыдущая страница (←)">← Назад</button>
+          <button id="ble-comic-zoom-btn-bottom" class="ble-comic-btn" onclick="bleReader.toggleComicZoom()">🔍 Увеличить (100%)</button>
+          <button class="ble-comic-btn" onclick="bleReader.comicNextPage()" title="Следующая страница (→)">Вперед →</button>
         </div>
 
         <div id="ble-comic-thumbs" class="ble-comic-thumbs-bar"></div>
