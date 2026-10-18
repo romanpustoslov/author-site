@@ -649,3 +649,344 @@ body.ble-reader-open {
     font-size: 2rem;
   }
 }
+
+/* ===================================================
+   CHAPTER ILLUSTRATIONS & LIGHTBOX (480px + ZOOM)
+   =================================================== */
+.ble-chapter-illustration-box {
+  margin: 2rem auto 2.75rem auto;
+  max-width: 520px;
+  text-align: center;
+}
+
+.ble-illustration-frame {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(229, 169, 60, 0.35);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.5);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  background: #0d0f15;
+}
+
+.ble-illustration-frame:hover {
+  transform: translateY(-3px) scale(1.015);
+  border-color: rgba(229, 169, 60, 0.9);
+  box-shadow: 0 16px 40px rgba(229, 169, 60, 0.25);
+}
+
+.ble-illustration-img {
+  display: block;
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  object-fit: cover;
+  transition: filter 0.3s ease;
+}
+
+.ble-illustration-zoom-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(9, 10, 15, 0.95), transparent);
+  color: #fff;
+  padding: 1.5rem 1rem 0.6rem 1rem;
+  font-size: 0.85rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.ble-illustration-frame:hover .ble-illustration-zoom-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ble-illustration-caption {
+  margin-top: 0.65rem;
+  font-size: 0.82rem;
+  color: var(--ble-text-muted);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: 0.03em;
+}
+
+/* Lightbox Modal */
+.ble-lightbox-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: rgba(4, 5, 8, 0.95);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  padding: 1.5rem;
+}
+
+.ble-lightbox-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ble-lightbox-content {
+  position: relative;
+  max-width: 92vw;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ble-lightbox-img {
+  max-width: 100%;
+  max-height: 82vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.ble-lightbox-caption {
+  margin-top: 0.85rem;
+  color: #e2e8f0;
+  font-size: 0.95rem;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.ble-lightbox-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.ble-lightbox-close:hover {
+  background: rgba(229, 169, 60, 0.9);
+  color: #000;
+  transform: rotate(90deg);
+}
+
+/* ===================================================
+   COMIC VIEWER MODAL (22 полосы + Webtoon + PDF)
+   =================================================== */
+.ble-comic-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #08090d;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.ble-comic-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ble-comic-header {
+  height: 60px;
+  background: rgba(14, 17, 24, 0.96);
+  border-bottom: 1px solid var(--ble-card-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  gap: 1rem;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.ble-comic-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.ble-comic-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ble-comic-counter {
+  font-size: 0.92rem;
+  color: var(--ble-gold);
+  font-weight: 600;
+  min-width: 100px;
+  text-align: center;
+}
+
+.ble-comic-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 0.45rem 0.85rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  text-decoration: none;
+}
+
+.ble-comic-btn:hover {
+  background: var(--ble-gold);
+  color: #000;
+  border-color: var(--ble-gold);
+}
+
+.ble-comic-btn.active {
+  background: var(--ble-gold);
+  color: #000;
+}
+
+.ble-comic-btn-pdf {
+  background: rgba(168, 85, 247, 0.2);
+  border-color: rgba(168, 85, 247, 0.4);
+  color: #c084fc;
+}
+
+.ble-comic-btn-pdf:hover {
+  background: #9333ea;
+  color: #fff;
+}
+
+.ble-comic-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 1rem;
+  background: #090a0f;
+}
+
+.ble-comic-page-view {
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ble-comic-current-img {
+  width: 100%;
+  max-width: 860px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+}
+
+.ble-comic-page-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.ble-comic-tape-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 860px;
+  width: 100%;
+}
+
+.ble-comic-tape-img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ble-comic-thumbs-bar {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  max-width: 860px;
+  width: 100%;
+  padding: 0.75rem 0.5rem;
+  scrollbar-width: thin;
+}
+
+.ble-comic-thumb {
+  height: 70px;
+  width: 50px;
+  border-radius: 4px;
+  object-fit: cover;
+  cursor: pointer;
+  opacity: 0.6;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.ble-comic-thumb:hover, .ble-comic-thumb.active {
+  opacity: 1;
+  border-color: var(--ble-gold);
+  transform: translateY(-2px);
+}
+
+/* Comic button on catalog book card */
+.btn-comic-ble {
+  padding: 0.65rem 1.15rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  border-radius: 8px;
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc !important;
+  border: 1px solid rgba(168, 85, 247, 0.45);
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.15);
+  transition: all 0.25s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+}
+
+.btn-comic-ble:hover {
+  background: #9333ea;
+  color: #fff !important;
+  box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
+  transform: translateY(-1px);
+}

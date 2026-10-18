@@ -22,6 +22,11 @@ class BLEReaderController {
     this.spritz = null;
     this.ambient = null;
 
+    // Графический роман и комиксы
+    this.comicData = null;
+    this.comicPageIndex = 0;
+    this.comicMode = 'page'; // 'page' (постранично) или 'tape' (вертикальная лента / webtoon)
+
     // Ссылки на DOM элементы
     this.dom = {};
   }
@@ -77,6 +82,7 @@ class BLEReaderController {
     this.dom.btnSpritz = document.getElementById('ble-btn-spritz');
     this.dom.btnSettings = document.getElementById('ble-btn-settings');
     this.dom.btnClose = document.getElementById('ble-btn-close');
+    this.dom.btnComicNav = document.getElementById('ble-btn-comic');
 
     // Инпуты настроек
     this.dom.inputFontSize = document.getElementById('ble-input-font-size');
@@ -92,6 +98,22 @@ class BLEReaderController {
     this.dom.btnSpritzClose = document.getElementById('ble-spritz-btn-close');
     this.dom.spritzWpmSlider = document.getElementById('ble-spritz-wpm-slider');
     this.dom.spritzWpmDisplay = document.getElementById('ble-spritz-wpm-display');
+
+    // Lightbox модалка (полноэкранный просмотр иллюстраций)
+    this.dom.lightboxModal = document.getElementById('ble-lightbox-modal');
+    this.dom.lightboxImg = document.getElementById('ble-lightbox-img');
+    this.dom.lightboxCaption = document.getElementById('ble-lightbox-caption');
+
+    // Комикс-модалка (графический роман / фан-арт)
+    this.dom.comicModal = document.getElementById('ble-comic-modal');
+    this.dom.comicHeaderTitle = document.getElementById('ble-comic-header-title');
+    this.dom.comicCounter = document.getElementById('ble-comic-counter');
+    this.dom.comicModeBtn = document.getElementById('ble-comic-mode-btn');
+    this.dom.comicPdfBtn = document.getElementById('ble-comic-pdf-btn');
+    this.dom.comicPageView = document.getElementById('ble-comic-page-view');
+    this.dom.comicTapeView = document.getElementById('ble-comic-tape-view');
+    this.dom.comicCurrentImg = document.getElementById('ble-comic-current-img');
+    this.dom.comicThumbs = document.getElementById('ble-comic-thumbs');
   }
 
   bindEvents() {
@@ -99,6 +121,31 @@ class BLEReaderController {
 
     // Глобальное закрытие и шорткаты
     document.addEventListener('keydown', (e) => {
+      // 1. Полноэкранный просмотр иллюстраций
+      if (this.dom.lightboxModal && this.dom.lightboxModal.classList.contains('active')) {
+        if (e.key === 'Escape') {
+          this.closeLightbox();
+          e.preventDefault();
+        }
+        return;
+      }
+
+      // 2. Просмотрщик комиксов
+      if (this.dom.comicModal && this.dom.comicModal.classList.contains('active')) {
+        if (e.key === 'Escape') {
+          this.closeComic();
+          e.preventDefault();
+        } else if (e.key === 'ArrowRight') {
+          this.comicNextPage();
+          e.preventDefault();
+        } else if (e.key === 'ArrowLeft') {
+          this.comicPrevPage();
+          e.preventDefault();
+        }
+        return;
+      }
+
+      // 3. Главный оверлей читалки
       if (!this.dom.overlay.classList.contains('active')) return;
 
       if (e.key === 'Escape') {
@@ -260,6 +307,11 @@ class BLEReaderController {
     this.currentBook = book;
     this.currentChapterIndex = Math.max(0, Math.min(book.chapters.length - 1, chapterNum - 1));
 
+    // Кнопка быстрого перехода к комиксу в шапке читалки
+    if (this.dom.btnComicNav) {
+      this.dom.btnComicNav.style.display = book.comic ? 'inline-flex' : 'none';
+    }
+
     this.renderChapter();
     this.renderTOC();
     this.applyTypography();
@@ -294,6 +346,32 @@ class BLEReaderController {
       .filter(p => p.length > 0)
       .map(p => `<p>${this.parseFootnotes(p)}</p>`)
       .join('');
+
+    // Иллюстрация к главе (если имеется в манифесте)
+    let illustrationHtml = '';
+    if (ch.image_thumb) {
+      const fullImg = ch.image_full || ch.image_thumb;
+      const cleanTitle = this.escapeHtml(this.currentBook.title + ' — ' + ch.title);
+      illustrationHtml = `
+        <figure class="ble-chapter-illustration-box">
+          <div class="ble-illustration-frame" onclick="bleReader.openLightbox('${fullImg}', '${cleanTitle}')">
+            <img 
+              src="${ch.image_thumb}" 
+              alt="${cleanTitle}" 
+              class="ble-illustration-img"
+              loading="lazy"
+            >
+            <div class="ble-illustration-zoom-overlay">
+              <span class="ble-illustration-zoom-icon">🔍</span>
+              <span>Увеличить иллюстрацию</span>
+            </div>
+          </div>
+          <figcaption class="ble-illustration-caption">
+            Иллюстрация к главе • Кликните для просмотра в высоком разрешении
+          </figcaption>
+        </figure>
+      `;
+    }
 
     const hasPrev = this.currentChapterIndex > 0;
     const hasNext = this.currentChapterIndex < this.currentBook.chapters.length - 1;
@@ -355,6 +433,7 @@ class BLEReaderController {
 
     this.dom.article.innerHTML = `
       <h1>${ch.title}</h1>
+      ${illustrationHtml}
       ${paragraphs}
       ${navHtml}
       ${commentsHtml}
@@ -429,13 +508,28 @@ class BLEReaderController {
 
   renderTOC() {
     if (!this.currentBook) return;
-    this.dom.tocList.innerHTML = this.currentBook.chapters.map((ch, idx) => `
-      <li class="ble-toc-item ${idx === this.currentChapterIndex ? 'active' : ''}" data-index="${idx}">
-        ${idx + 1}. ${ch.title}
-      </li>
-    `).join('');
 
-    this.dom.tocList.querySelectorAll('.ble-toc-item').forEach(item => {
+    let comicItemHtml = '';
+    if (this.currentBook.comic) {
+      comicItemHtml = `
+        <li class="ble-toc-item ble-toc-comic-item" onclick="bleReader.openComic('${this.currentBook.slug}'); document.getElementById('ble-toc-drawer').classList.remove('active');" style="background: rgba(229,169,60,0.12); border-left: 3px solid var(--ble-gold); margin-bottom: 0.5rem; font-weight: 600; color: var(--ble-gold); cursor: pointer;">
+          🎨 Графический роман (${this.currentBook.comic.pages_count} полос)
+        </li>
+      `;
+    }
+
+    const chaptersHtml = this.currentBook.chapters.map((ch, idx) => {
+      const artBadge = ch.image_thumb ? '<span style="opacity: 0.7; font-size: 0.85em; margin-left: 6px;" title="Глава с иллюстрацией">🎨</span>' : '';
+      return `
+        <li class="ble-toc-item ${idx === this.currentChapterIndex ? 'active' : ''}" data-index="${idx}">
+          ${idx + 1}. ${ch.title} ${artBadge}
+        </li>
+      `;
+    }).join('');
+
+    this.dom.tocList.innerHTML = comicItemHtml + chaptersHtml;
+
+    this.dom.tocList.querySelectorAll('.ble-toc-item[data-index]').forEach(item => {
       item.addEventListener('click', () => {
         const idx = parseInt(item.dataset.index, 10);
         window.location.hash = `#read/${this.currentBook.slug}/${idx + 1}`;
@@ -531,7 +625,174 @@ class BLEReaderController {
     this.dom.btnSpritzPlay.textContent = isPlaying ? '⏸' : '▶';
   }
 
+  // --- ПОЛНОЭКРАННЫЙ ПРОСМОТР ИЛЛЮСТРАЦИЙ (LIGHTBOX) ---
+
+  openLightbox(fullUrl, caption = '') {
+    if (!this.dom.lightboxModal || !this.dom.lightboxImg) return;
+    this.dom.lightboxImg.src = fullUrl;
+    this.dom.lightboxImg.alt = caption;
+    if (this.dom.lightboxCaption) {
+      this.dom.lightboxCaption.textContent = caption;
+    }
+    this.dom.lightboxModal.classList.add('active');
+    document.body.classList.add('ble-lightbox-open');
+  }
+
+  closeLightbox() {
+    if (!this.dom.lightboxModal) return;
+    this.dom.lightboxModal.classList.remove('active');
+    document.body.classList.remove('ble-lightbox-open');
+    if (this.dom.lightboxImg) this.dom.lightboxImg.src = '';
+  }
+
+  // --- ПРОСМОТРЩИК ГРАФИЧЕСКИХ РОМАНОВ И КОМИКСОВ ---
+
+  openComic(slug) {
+    const book = this.books.find(b => b.slug === slug) || this.currentBook;
+    if (!book || !book.comic) {
+      console.warn('[BLE Reader] Comic adaptation not found for book:', slug);
+      return;
+    }
+
+    this.comicData = book.comic;
+    this.comicPageIndex = 0;
+    this.comicMode = 'page';
+
+    if (this.dom.comicHeaderTitle) {
+      this.dom.comicHeaderTitle.textContent = book.comic.title || `${book.title} — Комикс-адаптация`;
+    }
+
+    if (this.dom.comicPdfBtn) {
+      if (book.comic.pdf) {
+        this.dom.comicPdfBtn.href = book.comic.pdf;
+        this.dom.comicPdfBtn.style.display = 'inline-flex';
+      } else {
+        this.dom.comicPdfBtn.style.display = 'none';
+      }
+    }
+
+    if (this.dom.comicPageView) this.dom.comicPageView.style.display = 'flex';
+    if (this.dom.comicTapeView) this.dom.comicTapeView.style.display = 'none';
+    if (this.dom.comicModeBtn) this.dom.comicModeBtn.textContent = '📜 Лента (Webtoon)';
+
+    this.renderComicPage();
+    this.renderComicThumbs();
+    this.renderComicTape();
+
+    if (this.dom.comicModal) {
+      this.dom.comicModal.classList.add('active');
+      document.body.classList.add('ble-comic-open');
+    }
+
+    try {
+      if (typeof ym === 'function') {
+        ym(113666400, 'reachGoal', 'open_comic', { book: slug });
+      }
+    } catch (e) {}
+  }
+
+  closeComic() {
+    if (!this.dom.comicModal) return;
+    this.dom.comicModal.classList.remove('active');
+    document.body.classList.remove('ble-comic-open');
+  }
+
+  renderComicPage() {
+    if (!this.comicData || !this.comicData.pages || this.comicData.pages.length === 0) return;
+    const page = this.comicData.pages[this.comicPageIndex];
+    if (this.dom.comicCurrentImg) {
+      this.dom.comicCurrentImg.src = page.image;
+      this.dom.comicCurrentImg.alt = `Полоса ${page.page_number} из ${this.comicData.pages_count}`;
+    }
+    if (this.dom.comicCounter) {
+      this.dom.comicCounter.textContent = `Стр. ${this.comicPageIndex + 1} из ${this.comicData.pages_count}`;
+    }
+    this.updateComicThumbsActive();
+  }
+
+  renderComicThumbs() {
+    if (!this.dom.comicThumbs || !this.comicData) return;
+    this.dom.comicThumbs.innerHTML = this.comicData.pages.map((p, idx) => `
+      <div class="ble-comic-thumb ${idx === this.comicPageIndex ? 'active' : ''}" data-index="${idx}" onclick="bleReader.setComicPage(${idx})" title="Полоса ${idx + 1}">
+        <img src="${p.thumb || p.image}" alt="Стр. ${idx + 1}" loading="lazy">
+        <span class="ble-comic-thumb-num">${idx + 1}</span>
+      </div>
+    `).join('');
+  }
+
+  updateComicThumbsActive() {
+    if (!this.dom.comicThumbs) return;
+    const thumbs = this.dom.comicThumbs.querySelectorAll('.ble-comic-thumb');
+    thumbs.forEach((th, idx) => {
+      th.classList.toggle('active', idx === this.comicPageIndex);
+    });
+    const activeThumb = thumbs[this.comicPageIndex];
+    if (activeThumb) {
+      activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  }
+
+  renderComicTape() {
+    if (!this.dom.comicTapeView || !this.comicData) return;
+    this.dom.comicTapeView.innerHTML = this.comicData.pages.map(p => `
+      <div class="ble-comic-tape-item">
+        <img src="${p.image}" alt="Полоса ${p.page_number}" loading="lazy">
+        <div class="ble-comic-tape-label">Полоса ${p.page_number} / ${this.comicData.pages_count}</div>
+      </div>
+    `).join('');
+  }
+
+  setComicPage(idx) {
+    if (!this.comicData) return;
+    this.comicPageIndex = Math.max(0, Math.min(this.comicData.pages.length - 1, idx));
+    this.renderComicPage();
+  }
+
+  comicNextPage() {
+    if (!this.comicData) return;
+    if (this.comicPageIndex < this.comicData.pages.length - 1) {
+      this.comicPageIndex++;
+      this.renderComicPage();
+    }
+  }
+
+  comicPrevPage() {
+    if (!this.comicData) return;
+    if (this.comicPageIndex > 0) {
+      this.comicPageIndex--;
+      this.renderComicPage();
+    }
+  }
+
+  toggleComicMode() {
+    if (!this.comicData) return;
+    if (this.comicMode === 'page') {
+      this.comicMode = 'tape';
+      if (this.dom.comicPageView) this.dom.comicPageView.style.display = 'none';
+      if (this.dom.comicTapeView) this.dom.comicTapeView.style.display = 'block';
+      if (this.dom.comicModeBtn) this.dom.comicModeBtn.textContent = '📄 Постранично';
+    } else {
+      this.comicMode = 'page';
+      if (this.dom.comicPageView) this.dom.comicPageView.style.display = 'flex';
+      if (this.dom.comicTapeView) this.dom.comicTapeView.style.display = 'none';
+      if (this.dom.comicModeBtn) this.dom.comicModeBtn.textContent = '📜 Лента (Webtoon)';
+      this.renderComicPage();
+    }
+  }
+
+  escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   close(updateHash = true) {
+    this.closeLightbox();
+    this.closeComic();
     this.dom.overlay.classList.remove('active');
     document.body.classList.remove('ble-reader-open');
     this.dom.drawer.classList.remove('active');

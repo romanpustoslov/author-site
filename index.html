@@ -854,6 +854,7 @@
           <div>
             <div class="book-meta">
               <span class="book-tag">Социальная фантастика</span>
+              <span class="book-tag" style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border-color: rgba(168, 85, 247, 0.4);">🎨 +Комикс 22 полосы</span>
               <span class="book-free-badge">БЕСПЛАТНО</span>
             </div>
             <h3 class="book-title">Зеленый Свет</h3>
@@ -863,6 +864,7 @@
           </div>
           <div class="book-links">
             <a href="#read/zelyony-svet/1" class="btn-read-ble">📖 Читать книгу</a>
+            <button type="button" onclick="bleReader.openComic('zelyony-svet')" class="btn-comic-ble" title="Открыть графический роман / комикс-адаптацию (22 полосы)">🎨 Комикс (22 полосы)</button>
             <a href="https://www.litres.ru/book/roman-pustoslov/zelenyi-svet-74639177/" target="_blank" rel="noopener" class="platform-icon-btn litres" title="Читать «Зеленый Свет» на Литрес" aria-label="Литрес">ЛР</a>
             <a href="https://author.today/work/668685" target="_blank" rel="noopener" class="platform-icon-btn at" title="Читать «Зеленый Свет» на Author.Today" aria-label="Author.Today">AT</a>
             <a href="https://litsovet.ru/books/1002391-zelenyy-svet/read" target="_blank" rel="noopener" class="platform-icon-btn litsovet" title="Читать «Зеленый Свет» на Litsovet" aria-label="Litsovet">ЛС</a>
@@ -994,6 +996,7 @@
           <div>
             <div class="book-meta">
               <span class="book-tag">Микропроза / Концепт</span>
+              <span class="book-tag" style="background: rgba(229, 169, 60, 0.15); color: #e5a93c; border-color: rgba(229, 169, 60, 0.4);">🎨 100 иллюстраций</span>
               <span class="book-free-badge">БЕСПЛАТНО</span>
             </div>
             <h3 class="book-title">Роман Пу - 100 слов</h3>
@@ -1116,6 +1119,7 @@
         </div>
       </div>
       <div class="ble-reader-actions">
+        <button id="ble-btn-comic" class="ble-header-btn" title="Смотреть комикс-адаптацию" style="display: none;" onclick="bleReader.openComic(bleReader.currentBook ? bleReader.currentBook.slug : '')">🎨</button>
         <button id="ble-btn-ambient" class="ble-header-btn" title="Включить фоновый ламповый эмбиент БЛЭ">♫</button>
         <button id="ble-btn-spritz" class="ble-header-btn" title="Режим скорочтения Spritz (RSVP)">⚡</button>
         <button id="ble-btn-settings" class="ble-header-btn" title="Настройки типографики">⚙</button>
@@ -1186,6 +1190,48 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Modal: Полноэкранный просмотр иллюстраций (Lightbox) -->
+  <div id="ble-lightbox-modal" class="ble-lightbox-modal" onclick="if(event.target===this) bleReader.closeLightbox()">
+    <button class="ble-lightbox-close" onclick="bleReader.closeLightbox()" title="Закрыть (Esc)">✕</button>
+    <div class="ble-lightbox-content">
+      <img id="ble-lightbox-img" src="" alt="" class="ble-lightbox-img">
+      <div id="ble-lightbox-caption" class="ble-lightbox-caption"></div>
+    </div>
+  </div>
+
+  <!-- Modal: Просмотрщик графического романа / комикса (22 полосы) -->
+  <div id="ble-comic-modal" class="ble-comic-modal">
+    <header class="ble-comic-header">
+      <div class="ble-comic-title">
+        <span style="font-size: 1.3rem;">🎨</span>
+        <span id="ble-comic-header-title">Зеленый Свет — Комикс-адаптация</span>
+      </div>
+      <div class="ble-comic-controls">
+        <span id="ble-comic-counter" class="ble-comic-counter">Стр. 1 из 22</span>
+        <button id="ble-comic-mode-btn" class="ble-comic-btn" onclick="bleReader.toggleComicMode()">📜 Лента (Webtoon)</button>
+        <a id="ble-comic-pdf-btn" href="assets/comics/zelyony-svet/zelyony-svet-comic.pdf" download target="_blank" class="ble-comic-btn ble-comic-btn-pdf" title="Скачать комикс в формате PDF">📥 Скачать PDF (4.5 MB)</a>
+        <button class="ble-header-btn" onclick="bleReader.closeComic()" title="Закрыть комикс">✕</button>
+      </div>
+    </header>
+
+    <div id="ble-comic-body" class="ble-comic-body">
+      <!-- Режим постраничного просмотра -->
+      <div id="ble-comic-page-view" class="ble-comic-page-view">
+        <img id="ble-comic-current-img" src="" alt="Страница комикса" class="ble-comic-current-img" onclick="bleReader.comicNextPage()" title="Нажмите для перехода к следующей странице">
+        
+        <div class="ble-comic-page-nav">
+          <button class="ble-comic-btn" onclick="bleReader.comicPrevPage()" title="Предыдущая страница">← Назад</button>
+          <button class="ble-comic-btn" onclick="bleReader.comicNextPage()" title="Следующая страница">Вперед →</button>
+        </div>
+
+        <div id="ble-comic-thumbs" class="ble-comic-thumbs-bar"></div>
+      </div>
+
+      <!-- Режим вертикальной ленты (Webtoon) -->
+      <div id="ble-comic-tape-view" class="ble-comic-tape-view" style="display: none;"></div>
     </div>
   </div>
 
