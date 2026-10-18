@@ -130,6 +130,27 @@ class BLEReaderController {
     this.dom.btnAmbient.addEventListener('click', () => {
       const active = this.ambient.toggle();
       this.dom.btnAmbient.classList.toggle('active', active);
+      if (active) {
+        try {
+          if (typeof ym === 'function') ym(113666400, 'reachGoal', 'ambient_music');
+        } catch (e) {}
+      }
+    });
+
+    // Трекинг исходящих кликов по платформам в Яндекс Метрике
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (!link) return;
+      const href = link.getAttribute('href') || '';
+      try {
+        if (typeof ym === 'function') {
+          if (href.includes('author.today')) ym(113666400, 'reachGoal', 'out_author_today');
+          else if (href.includes('litres') || href.includes('selfpub')) ym(113666400, 'reachGoal', 'out_litres');
+          else if (href.includes('litsovet')) ym(113666400, 'reachGoal', 'out_litsovet');
+          else if (href.includes('boosty')) ym(113666400, 'reachGoal', 'out_boosty');
+          else if (href.includes('lava.top')) ym(113666400, 'reachGoal', 'out_lava');
+        }
+      } catch (e) {}
     });
 
     this.dom.btnSpritz.addEventListener('click', () => this.toggleSpritz(true));
@@ -250,6 +271,13 @@ class BLEReaderController {
     try {
       localStorage.setItem(`ble_progress_${slug}`, this.currentChapterIndex + 1);
     } catch (e) {}
+
+    // Трекинг цели в Яндекс Метрике
+    try {
+      if (typeof ym === 'function') {
+        ym(113666400, 'reachGoal', 'open_reader', { book: slug, chapter: this.currentChapterIndex + 1 });
+      }
+    } catch (e) {}
   }
 
   renderChapter() {
@@ -277,11 +305,36 @@ class BLEReaderController {
       </div>
     `;
 
+    const pageId = `${this.currentBook.slug}-${this.currentChapterIndex + 1}`;
+    const pageUrl = `https://roman-pustoslov.pages.dev/#read/${this.currentBook.slug}/${this.currentChapterIndex + 1}`;
+    const pageTitle = `${this.currentBook.title} — ${ch.title}`;
+
+    const commentsHtml = `
+      <section class="ble-reader-comments-section" id="ble-comments-container">
+        <div class="ble-comments-header">
+          <h3>💬 Мысли и отзывы к главе</h3>
+          <p>Оставьте отзыв или комментарий автору прямо со страницы чтения (без регистрации):</p>
+        </div>
+        <div id="cusdis_thread"
+          data-host="https://cusdis.com"
+          data-app-id="9be9d4a8-6f71-4235-977d-7880f08960fa"
+          data-page-id="${pageId}"
+          data-page-url="${pageUrl}"
+          data-page-title="${pageTitle}"
+          data-theme="dark"
+        ></div>
+      </section>
+    `;
+
     this.dom.article.innerHTML = `
       <h1>${ch.title}</h1>
       ${paragraphs}
       ${navHtml}
+      ${commentsHtml}
     `;
+
+    // Инициализация/перезапуск виджета комментариев
+    this.renderCusdis();
 
     // Сброс скролла наверх
     this.dom.viewport.scrollTop = 0;
@@ -293,6 +346,23 @@ class BLEReaderController {
       const pct = (curr / total) * 100;
       this.dom.progressFill.style.width = `${pct}%`;
     };
+  }
+
+  renderCusdis() {
+    try {
+      if (window.CUSDIS && typeof window.CUSDIS.render === 'function') {
+        window.CUSDIS.render();
+      } else if (!document.getElementById('cusdis-script')) {
+        const s = document.createElement('script');
+        s.id = 'cusdis-script';
+        s.src = 'https://cusdis.com/js/cusdis.es.js';
+        s.async = true;
+        s.defer = true;
+        document.body.appendChild(s);
+      }
+    } catch (e) {
+      console.warn('[BLE Reader] Cusdis initialization skipped:', e);
+    }
   }
 
   renderTOC() {
@@ -381,6 +451,11 @@ class BLEReaderController {
       this.dom.spritzModal.classList.add('active');
       this.dom.btnSpritz.classList.add('active');
       this.spritz.renderCurrentWord();
+      try {
+        if (typeof ym === 'function') {
+          ym(113666400, 'reachGoal', 'spritz_mode', { book: this.currentBook?.slug });
+        }
+      } catch (e) {}
     } else {
       this.dom.spritzModal.classList.remove('active');
       this.dom.btnSpritz.classList.remove('active');
