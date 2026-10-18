@@ -466,6 +466,46 @@
       display: block;
     }
 
+    /* Photo Gallery */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .gallery-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .gallery-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(229, 169, 60, 0.4);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+    .gallery-card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+    }
+    .gallery-info {
+      padding: 1rem 1.25rem;
+    }
+    .gallery-title {
+      font-weight: 600;
+      color: #fff;
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+    .gallery-desc {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+
     /* Footer */
     footer {
       border-top: 1px solid var(--card-border);
@@ -495,12 +535,14 @@
       </div>
       <nav class="nav-links">
         <a href="#about">Об авторе & Манул</a>
+        <a href="#gallery">Фотохроника</a>
         <a href="#books">Книги</a>
-        <a href="https://selfpub.ru/books/ebooks/?state=published" target="_blank" style="color: #ff8a65; font-weight: 600;">Литрес Самиздат ↗</a>
+        <a href="https://selfpub.ru/books/ebooks/?state=published" target="_blank" style="color: #ff8a65; font-weight: 600;">Литрес ↗</a>
         <a href="https://author.today/u/romanpustoslov/works" target="_blank" style="color: #60a5fa; font-weight: 600;">Author.Today ↗</a>
         <a href="#platforms">Где читать</a>
         <a href="#support">Поддержать</a>
-        <a href="https://app.lava.top/roman.pustoslov" target="_blank" class="btn-donate-nav">Донат (Lava.top)</a>
+        <a href="https://boosty.to/roman.pustoslov" target="_blank" style="color: #ea580c; font-weight: 600;">Boosty ↗</a>
+        <a href="https://app.lava.top/roman.pustoslov" target="_blank" class="btn-donate-nav">Lava.top</a>
       </nav>
     </div>
   </header>
@@ -556,6 +598,58 @@
           <a href="https://selfpub.ru/books/ebooks/?state=published" target="_blank" class="btn btn-litres">
             Литрес Самиздат ↗
           </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Photo Gallery Section -->
+    <section id="gallery" style="padding-top: 2rem;">
+      <div class="section-header">
+        <div class="section-eyebrow">Фотохроника студии</div>
+        <h2 class="section-title">Роман Пустослов и Главный Редактор</h2>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-card">
+          <img src="assets/images/05b_gemini_native_veto.png" alt="Вето главного редактора">
+          <div class="gallery-info">
+            <div class="gallery-title">Вето главного редактора</div>
+            <div class="gallery-desc">Капитуляция перед неподкупным надзором Манула за рукописью.</div>
+          </div>
+        </div>
+        <div class="gallery-card">
+          <img src="assets/images/04_ai_lab_research_khroma.png" alt="Лаборатория БЛЭ">
+          <div class="gallery-info">
+            <div class="gallery-title">Лаборатория БЛЭ</div>
+            <div class="gallery-desc">Архитектура нейросетевых симуляций и кот на клавиатуре.</div>
+          </div>
+        </div>
+        <div class="gallery-card">
+          <img src="assets/images/03b_cozy_author_study_khroma.png" alt="Кабинет у соснового леса">
+          <div class="gallery-info">
+            <div class="gallery-title">Вечер в кабинете у леса</div>
+            <div class="gallery-desc">Чай, тишина Подмосковья и спящий манул после редактуры.</div>
+          </div>
+        </div>
+        <div class="gallery-card">
+          <img src="assets/images/06_bookstore_presentation_khroma.png" alt="Автограф-сессия">
+          <div class="gallery-info">
+            <div class="gallery-title">Презентация книг</div>
+            <div class="gallery-desc">Роман заверяет тираж подписью, а Манул — оттиском лапы.</div>
+          </div>
+        </div>
+        <div class="gallery-card">
+          <img src="assets/images/pustoslov_02_editorial_tweed.png" alt="Роман Викторович в твидовом пиджаке">
+          <div class="gallery-info">
+            <div class="gallery-title">Роман Викторович Пустослов</div>
+            <div class="gallery-desc">Канонический портрет писателя и системного архитектора.</div>
+          </div>
+        </div>
+        <div class="gallery-card">
+          <img src="assets/images/manul_02_majestic_guardian.png" alt="Манул — хранитель канона">
+          <div class="gallery-info">
+            <div class="gallery-title">Манул БЛЭ</div>
+            <div class="gallery-desc">Царственный хранитель канона и строгого литературного вкуса.</div>
+          </div>
         </div>
       </div>
     </section>
