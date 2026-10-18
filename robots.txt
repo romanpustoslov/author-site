@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://roman-pustoslov.pages.dev/sitemap.xml
