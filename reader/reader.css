@@ -502,6 +502,43 @@ body.ble-reader-open {
   transform: translateY(-2px);
 }
 
+/* Секция комментариев и отзывов */
+.ble-reader-comments-section {
+  margin-top: 4rem;
+  padding-top: 2.5rem;
+  border-top: 1px dashed rgba(229, 169, 60, 0.25);
+}
+
+.ble-comments-header {
+  margin-bottom: 2rem;
+}
+
+.ble-comments-header h3 {
+  font-family: var(--ble-font-title);
+  color: var(--ble-gold);
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.ble-comments-header p {
+  color: var(--ble-text-muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+#cusdis_thread {
+  min-height: 200px;
+  background: rgba(14, 17, 24, 0.6);
+  border: 1px solid var(--ble-card-border);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+#cusdis_thread iframe {
+  width: 100% !important;
+  border: none !important;
+}
+
 /* Мобильная адаптивность */
 @media (max-width: 768px) {
   .ble-reader-header {
