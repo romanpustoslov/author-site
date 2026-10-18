@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Роман Викторович Пустослов — Официальный сайт автора & БЛЭ</title>
-  <meta name="description" content="Официальный сайт писателя Романа Викторовича Пустослова и его кота-манула. Книги, бесплатное чтение на Author.Today и Litsovet, поддержка через Lava.top. Бюро латеральной экстраполяции.">
+  <meta name="description" content="Официальный сайт писателя Романа Викторовича Пустослова и его кота-манула. Книги, бесплатное чтение на Литрес, Author.Today и Litsovet, поддержка через Lava.top. Бюро латеральной экстраполяции.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -17,6 +17,8 @@
       --accent-glow: rgba(229, 169, 60, 0.25);
       --at-color: #3b82f6;
       --at-glow: rgba(59, 130, 246, 0.25);
+      --litres-color: #ff5722;
+      --litres-glow: rgba(255, 87, 34, 0.25);
       --emerald: #10b981;
       --text: #e2e8f0;
       --text-muted: #94a3b8;
@@ -299,12 +301,12 @@
     }
     .book-links {
       display: flex;
-      gap: 0.75rem;
+      gap: 0.6rem;
       flex-wrap: wrap;
     }
     .btn-at {
-      padding: 0.55rem 1.1rem;
-      font-size: 0.85rem;
+      padding: 0.5rem 0.9rem;
+      font-size: 0.82rem;
       font-weight: 600;
       border-radius: 6px;
       background: rgba(37, 99, 235, 0.15);
@@ -321,9 +323,28 @@
       border-color: #2563eb;
       box-shadow: 0 4px 12px var(--at-glow);
     }
+    .btn-litres {
+      padding: 0.5rem 0.9rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border-radius: 6px;
+      background: rgba(255, 87, 34, 0.15);
+      color: #ff8a65;
+      border: 1px solid rgba(255, 87, 34, 0.35);
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .btn-litres:hover {
+      background: #ff5722;
+      color: #fff;
+      border-color: #ff5722;
+      box-shadow: 0 4px 12px var(--litres-glow);
+    }
     .btn-read {
-      padding: 0.55rem 1.1rem;
-      font-size: 0.85rem;
+      padding: 0.5rem 0.9rem;
+      font-size: 0.82rem;
       font-weight: 500;
       border-radius: 6px;
       background: rgba(255, 255, 255, 0.06);
@@ -475,7 +496,8 @@
       <nav class="nav-links">
         <a href="#about">Об авторе & Манул</a>
         <a href="#books">Книги</a>
-        <a href="https://author.today/u/romanpustoslov/works" target="_blank" style="color: #60a5fa; font-weight: 600;">Author.Today Works ↗</a>
+        <a href="https://selfpub.ru/books/ebooks/?state=published" target="_blank" style="color: #ff8a65; font-weight: 600;">Литрес Самиздат ↗</a>
+        <a href="https://author.today/u/romanpustoslov/works" target="_blank" style="color: #60a5fa; font-weight: 600;">Author.Today ↗</a>
         <a href="#platforms">Где читать</a>
         <a href="#support">Поддержать</a>
         <a href="https://app.lava.top/roman.pustoslov" target="_blank" class="btn-donate-nav">Донат (Lava.top)</a>
@@ -496,7 +518,9 @@
           <a href="https://author.today/u/romanpustoslov/works" target="_blank" class="btn btn-at-hero">
             📚 Читать на Author.Today
           </a>
-          <a href="#books" class="btn btn-secondary">Каталог книг ↓</a>
+          <a href="https://selfpub.ru/books/ebooks/?state=published" target="_blank" class="btn" style="background: rgba(255, 87, 34, 0.2); border: 1px solid rgba(255, 87, 34, 0.4); color: #ff8a65;">
+            🔥 Все книги на Литрес
+          </a>
           <a href="https://app.lava.top/roman.pustoslov" target="_blank" class="btn btn-primary">⚡ Поддержать автора</a>
         </div>
       </div>
@@ -527,10 +551,10 @@
         </p>
         <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
           <a href="https://author.today/u/romanpustoslov" target="_blank" class="btn btn-at">
-            Профиль на Author.Today ↗
+            Author.Today ↗
           </a>
-          <a href="https://author.today/u/romanpustoslov/works" target="_blank" class="btn btn-secondary">
-            Все произведения автора ↗
+          <a href="https://selfpub.ru/books/ebooks/?state=published" target="_blank" class="btn btn-litres">
+            Литрес Самиздат ↗
           </a>
         </div>
       </div>
@@ -557,7 +581,8 @@
             </p>
           </div>
           <div class="book-links">
-            <a href="https://author.today/work/668685" target="_blank" class="btn-at">📖 Author.Today ↗</a>
+            <a href="https://selfpub.ru/books/1182349" target="_blank" class="btn-litres">Литрес ↗</a>
+            <a href="https://author.today/work/668685" target="_blank" class="btn-at">Author.Today ↗</a>
             <a href="https://litsovet.ru/books/1002391-zelenyy-svet/read" target="_blank" class="btn-read">Litsovet</a>
           </div>
         </div>
@@ -575,7 +600,8 @@
             </p>
           </div>
           <div class="book-links">
-            <a href="https://author.today/work/647949" target="_blank" class="btn-at">📖 Author.Today ↗</a>
+            <a href="https://selfpub.ru/books/1182367" target="_blank" class="btn-litres">Литрес ↗</a>
+            <a href="https://author.today/work/647949" target="_blank" class="btn-at">Author.Today ↗</a>
             <a href="https://litsovet.ru/books/1001672-voin-vyhodnogo-dnya/read" target="_blank" class="btn-read">Litsovet</a>
           </div>
         </div>
@@ -593,7 +619,8 @@
             </p>
           </div>
           <div class="book-links">
-            <a href="https://author.today/work/647968" target="_blank" class="btn-at">📖 Author.Today ↗</a>
+            <a href="https://selfpub.ru/books/1182372" target="_blank" class="btn-litres">Литрес ↗</a>
+            <a href="https://author.today/work/647968" target="_blank" class="btn-at">Author.Today ↗</a>
             <a href="https://litsovet.ru/books/1001673-voin-rabochey-nedeli/read" target="_blank" class="btn-read">Litsovet</a>
           </div>
         </div>
@@ -611,7 +638,8 @@
             </p>
           </div>
           <div class="book-links">
-            <a href="https://author.today/work/614768" target="_blank" class="btn-at">📖 Author.Today ↗</a>
+            <a href="https://selfpub.ru/books/1182374" target="_blank" class="btn-litres">Литрес ↗</a>
+            <a href="https://author.today/work/614768" target="_blank" class="btn-at">Author.Today ↗</a>
             <a href="https://litsovet.ru/books/1000755-borodatye/read" target="_blank" class="btn-read">Litsovet</a>
           </div>
         </div>
@@ -629,7 +657,8 @@
             </p>
           </div>
           <div class="book-links">
-            <a href="https://author.today/work/612444" target="_blank" class="btn-at">📖 Author.Today ↗</a>
+            <a href="https://selfpub.ru/books/1182376" target="_blank" class="btn-litres">Литрес ↗</a>
+            <a href="https://author.today/work/612444" target="_blank" class="btn-at">Author.Today ↗</a>
             <a href="https://litsovet.ru/books/1000713-progrev/read" target="_blank" class="btn-read">Litsovet</a>
           </div>
         </div>
@@ -647,25 +676,27 @@
             </p>
           </div>
           <div class="book-links">
-            <a href="https://author.today/work/612441" target="_blank" class="btn-at">📖 Author.Today ↗</a>
+            <a href="https://selfpub.ru/books/1182379" target="_blank" class="btn-litres">Литрес ↗</a>
+            <a href="https://author.today/work/612441" target="_blank" class="btn-at">Author.Today ↗</a>
             <a href="https://litsovet.ru/books/1000714-pisma-anne/read" target="_blank" class="btn-read">Litsovet</a>
           </div>
         </div>
 
-        <!-- Book 7: Отдел возвратов -->
+        <!-- Book 7: Отдел возврата -->
         <div class="book-card">
           <div>
             <div class="book-meta">
               <span class="book-tag">Ироническая проза</span>
               <span class="book-free-badge">БЕСПЛАТНО</span>
             </div>
-            <h3 class="book-title">Отдел возвратов</h3>
+            <h3 class="book-title">Отдел возврата</h3>
             <p class="book-annotation">
               Бюрократия метафизического масштаба: куда обращаться, если выданная вам жизнь оказалась бракованной, комплектация не совпадает, а гарантийный срок истек еще в прошлом столетии.
             </p>
           </div>
           <div class="book-links">
-            <a href="https://author.today/work/609740" target="_blank" class="btn-at">📖 Author.Today ↗</a>
+            <a href="https://selfpub.ru/books/1086933" target="_blank" class="btn-litres">Литрес ↗</a>
+            <a href="https://author.today/work/609740" target="_blank" class="btn-at">Author.Today ↗</a>
             <a href="https://litsovet.ru/books/1000712-sad-grishi/read" target="_blank" class="btn-read">Litsovet</a>
           </div>
         </div>
@@ -683,7 +714,8 @@
             </p>
           </div>
           <div class="book-links">
-            <a href="https://author.today/work/604814" target="_blank" class="btn-at">📖 Author.Today ↗</a>
+            <a href="https://selfpub.ru/books/1092858" target="_blank" class="btn-litres">Литрес ↗</a>
+            <a href="https://author.today/work/604814" target="_blank" class="btn-at">Author.Today ↗</a>
             <a href="https://author.today/u/romanpustoslov/works" target="_blank" class="btn-read">Сборник на AT</a>
           </div>
         </div>
@@ -701,7 +733,8 @@
             </p>
           </div>
           <div class="book-links">
-            <a href="https://author.today/work/612424" target="_blank" class="btn-at">📖 Author.Today ↗</a>
+            <a href="https://selfpub.ru/books/1182382" target="_blank" class="btn-litres">Литрес ↗</a>
+            <a href="https://author.today/work/612424" target="_blank" class="btn-at">Author.Today ↗</a>
             <a href="https://litsovet.ru/books/1000712-sad-grishi/read" target="_blank" class="btn-read">Litsovet</a>
           </div>
         </div>
@@ -717,6 +750,10 @@
         <h2 class="section-title">Где читать книги автора</h2>
       </div>
       <div class="platform-cards">
+        <a href="https://selfpub.ru/books/ebooks/?state=published" target="_blank" class="platform-card" style="border-color: rgba(255, 87, 34, 0.4);">
+          <div class="platform-name" style="color: #ff8a65;">Литрес Самиздат</div>
+          <div class="platform-badge">Опубликованы все 9 книг</div>
+        </a>
         <a href="https://author.today/u/romanpustoslov/works" target="_blank" class="platform-card" style="border-color: rgba(59, 130, 246, 0.4);">
           <div class="platform-name" style="color: #60a5fa;">Author.Today</div>
           <div class="platform-badge">Каталог произведений автора</div>
@@ -736,10 +773,6 @@
         <a href="https://zelluloza.ru" target="_blank" class="platform-card">
           <div class="platform-name">Целлюлоза</div>
           <div class="platform-badge">Поглавный самиздат</div>
-        </a>
-        <a href="https://litmarket.ru" target="_blank" class="platform-card">
-          <div class="platform-name">Литмаркет</div>
-          <div class="platform-badge">Экосистема самиздата</div>
         </a>
       </div>
     </div>
@@ -771,7 +804,7 @@
         «Бюро латеральной экстраполяции» (БЛЭ)
       </p>
       <p>
-        © 2026 Роман Викторович Пустослов. Все права защищены. Тексты распространяются для свободного чтения на Author.Today и партнерских платформах.
+        © 2026 Роман Викторович Пустослов. Все права защищены. Тексты распространяются для свободного чтения на Литрес, Author.Today и партнерских платформах.
       </p>
     </div>
   </footer>
