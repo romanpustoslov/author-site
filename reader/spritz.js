@@ -8,7 +8,7 @@ class BLESpritzEngine {
   constructor(containerId) {
     this.container = document.getElementById(containerId);
     this.wordSlot = this.container ? this.container.querySelector('.ble-spritz-word-slot') : null;
-    this.wpm = 320;
+    this.wpm = 200; // Комфортная скорость по умолчанию для вдумчивого чтения
     this.words = [];
     this.currentIndex = 0;
     this.isPlaying = false;
