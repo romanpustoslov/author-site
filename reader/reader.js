@@ -15,7 +15,7 @@ class BLEReaderController {
     this.settings = {
       fontSize: 19,
       fontFamily: 'serif',
-      wpm: 320,
+      wpm: 200, // Комфортная базовая скорость чтения для человека
       ambientVolume: 0.25
     };
 
@@ -315,14 +315,15 @@ class BLEReaderController {
           <h3>💬 Мысли и отзывы к главе</h3>
           <p>Оставьте отзыв или комментарий автору прямо со страницы чтения (без регистрации):</p>
         </div>
-        <div id="cusdis_thread"
-          data-host="https://cusdis.com"
-          data-app-id="9be9d4a8-6f71-4235-977d-7880f08960fa"
-          data-page-id="${pageId}"
-          data-page-url="${pageUrl}"
-          data-page-title="${pageTitle}"
-          data-theme="dark"
-        ></div>
+        <div id="cusdis_thread">
+          <iframe
+            id="cusdis_iframe"
+            title="Комментарии к главе"
+            src="https://cusdis.com/api/open/html?appId=9be9d4a8-6f71-4235-977d-7880f08960fa&pageId=${encodeURIComponent(pageId)}&pageUrl=${encodeURIComponent(pageUrl)}&pageTitle=${encodeURIComponent(pageTitle)}&theme=dark"
+            loading="lazy"
+            style="width: 100%; min-height: 280px; border: none; overflow: hidden;"
+          ></iframe>
+        </div>
       </section>
     `;
 
@@ -333,8 +334,8 @@ class BLEReaderController {
       ${commentsHtml}
     `;
 
-    // Инициализация/перезапуск виджета комментариев
-    this.renderCusdis();
+    // Автоматическая подстройка высоты iframe по сообщению от Cusdis
+    this.setupCusdisAutoHeight();
 
     // Сброс скролла наверх
     this.dom.viewport.scrollTop = 0;
@@ -348,21 +349,22 @@ class BLEReaderController {
     };
   }
 
-  renderCusdis() {
-    try {
-      if (window.CUSDIS && typeof window.CUSDIS.render === 'function') {
-        window.CUSDIS.render();
-      } else if (!document.getElementById('cusdis-script')) {
-        const s = document.createElement('script');
-        s.id = 'cusdis-script';
-        s.src = 'https://cusdis.com/js/cusdis.es.js';
-        s.async = true;
-        s.defer = true;
-        document.body.appendChild(s);
-      }
-    } catch (e) {
-      console.warn('[BLE Reader] Cusdis initialization skipped:', e);
-    }
+  setupCusdisAutoHeight() {
+    if (this._cusdisMsgBound) return;
+    this._cusdisMsgBound = true;
+    window.addEventListener('message', (e) => {
+      try {
+        const data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
+        if (data && data.from === 'cusdis') {
+          if (data.event === 'resize') {
+            const ifr = document.getElementById('cusdis_iframe');
+            if (ifr && data.data) {
+              ifr.style.height = `${Math.max(280, data.data)}px`;
+            }
+          }
+        }
+      } catch (err) {}
+    });
   }
 
   renderTOC() {
